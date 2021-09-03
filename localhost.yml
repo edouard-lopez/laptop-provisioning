@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  name: Provision a machine with basics
+  remote_user: "{{ ssh_user }}"
+  become: yes
+
+  roles:
+    - role: deploy_ssh_keys
+      tags: ssh
+
+  tasks:
+    - name: Configure Shell
+      include_role:
+        name: configure_shells
+      tags: shell
