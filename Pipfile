@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ansible = "==2.10.7"
-molecule = "==3.2.3"
+ansible = "~=4.5.0"
+molecule = "~=3.4.0"
 
 [dev-packages]
 
