@@ -28,7 +28,6 @@ deploy-ssh-key:
 .PHONY: install-requirements
 install-requirements: 
 	python3 -m pip install \
-		--user \
 		--requirement requirements.txt
 	ansible-galaxy install \
 		--role-file requirements.yml
@@ -40,7 +39,6 @@ install-dev-requirements:
 		libssl-dev
 	python3 -m pip install \
 		--upgrade \
-		--user \
 		setuptools \
 		testresources \
 		"molecule[ansible]" \
