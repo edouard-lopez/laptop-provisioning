@@ -1,7 +1,7 @@
 ---
 - name: Set up multiple SSH authorized keys
   ansible.posix.authorized_key:
-    user: "{{ ssh_user }}"
+    user: "{{ ansible_user }}"
     state: present
     key: "{{ lookup('file', item) }}"
   with_fileglob:

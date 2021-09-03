@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
   name: Provision a machine with basics
-  remote_user: "{{ ssh_user }}"
   become: yes
 
   roles:

@@ -1,6 +1,7 @@
 #!/usr/bin/make -sf
 
 INTERACTIVE=true
+REMOTE_USER ?= ${USER}
 
 default: \
 	install-requirements \
@@ -13,6 +14,7 @@ check-playbook:
 		--ask-become-pass \
 		--inventory inventories/dev.ini \
 		--check \
+		--user "${REMOTE_USER}" \
 	./localhost.yml
 
 .PHONY: deploy-ssh-key
@@ -55,7 +57,7 @@ test-locally:
 	ansible-playbook \
 		--ask-pass --ask-become-pass \
 		--inventory inventories/tests \
-		--extra-vars "ssh_user=ed8" \
+		--user "${REMOTE_USER}" \
 		-vv \
 	./localhost.yml
 		
