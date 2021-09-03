@@ -61,3 +61,12 @@ test-locally:
 		-vv \
 	./localhost.yml
 		
+.PHONY: configure-shells
+configure-shells:
+	ansible-playbook \
+		--ask-pass --ask-become-pass \
+		--inventory inventories/tests \
+		--user "${REMOTE_USER}" \
+		-vv \
+	./localhost.yml --tags shell
+		

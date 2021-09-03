@@ -1,2 +1,64 @@
 ---
 # tasks file for shell
+- name: Install Fish Shell
+  apt:
+    name: fish
+    state: present
+  tags:
+    - shell
+    - fish
+
+- name: Download Fisher
+  get_url:
+    url: https://git.io/fisher
+    dest: /tmp/fisher_install
+    mode: 755
+  tags:
+    - shell
+    - fish
+
+- name: Install Fisher
+  shell: >
+    source /tmp/fisher_install
+    && fisher install jorgebucaran/fisher
+  args:
+    executable: /usr/bin/fish
+  tags:
+    - shell
+    - fish
+
+- name: Install Fish Plugins via Fisher
+  vars:
+    fish_plugins:
+      - jorgebucaran/fishtape
+      - barnybug/docker-fish-completion
+      - decors/fish-colored-man
+      - jorgebucaran/fisher
+      - jorgebucaran/autopair.fish
+      - rafaelrinaldi/pure
+      - jorgebucaran/nvm.fish
+  loop: '{{ fish_plugins }}'
+  shell: fisher install {{ item }}
+  args:
+    executable: /usr/bin/fish
+  tags:
+    - shell
+    - fish
+
+- name: Download Tacklebox Fish Plugins
+  get_url:
+    url: https://raw.githubusercontent.com/justinmayer/tacklebox/master/tools/install.fish
+    dest: /tmp/tacklebox_install
+    mode: 755
+  tags:
+    - shell
+    - fish
+
+- name: Install Tacklebox Fish Plugins
+  shell: /tmp/tacklebox_install
+  args:
+    executable: /usr/bin/fish
+
+  tags:
+    - shell
+    - fish
