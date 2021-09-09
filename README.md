@@ -1,10 +1,6 @@
-# tolk Ansible
+# Restore Laptop with Ansible
 
-Quickjump: [install](#install)
-
-## Local Tunnel
-
-### Usage
+## Usage
 
 1. Copy your SSH public key to `roles/deploy_ssh_keys/public_keys/` (_e.g._ `foo.pub`)
 1. Deploy the SSH keys:
@@ -34,7 +30,7 @@ Quickjump: [install](#install)
       make install-requirements
       ```
 
-3. **Optionnal:** Developer tooling (linters, tests runner)
+3. **Optional:** Developer tooling (linters, tests runner)
 
       ```sh
       make install-dev-requirements
