@@ -1,0 +1,62 @@
+---
+- hosts: localhost
+  become: yes
+
+  vars:
+    ID: 'Ubuntu'
+    VERSION_ID: '20.04'
+
+  tasks:
+    - name: Install the gpg key for Buildah
+      apt_key:
+        url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ ID }}_{{ VERSION_ID }}/Release.key'
+        state: present
+      tags:
+        - container
+
+    - name: Add Buildah source to repositories list
+      apt_repository:
+        repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ID }}_{{ VERSION_ID }}/ /'
+        state: present
+        update_cache: yes
+      tags:
+        - container
+
+    - name: Install the Docker tooling alternatives
+      apt:
+        name:
+          - buildah
+          - skopeo
+          - podman
+        state: present
+      tags:
+        - container
+
+    - name: Ansible file module create directory
+      file:
+        path: /usr/local/lib/docker/cli-plugins/
+        state: directory
+      tags:
+        - container
+        - compose
+
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64
+        dest: /usr/local/lib/docker/cli-plugins/docker-compose
+        mode: '+x'
+      tags:
+        - container
+        - compose
+
+    - name: Add alias `docker-compose` > `docker compose`
+      shell: >
+        function docker-compose
+          docker compose
+        end
+      args:
+        executable: /usr/bin/fish
+      tags:
+        - container
+        - fish
+        - shell

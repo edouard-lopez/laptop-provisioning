@@ -87,3 +87,8 @@ configure-git:
 configure-nodejs:
 	ansible-playbook ./roles/configure_nodejs/tasks/main.yml \
 		--ask-become-pass
+
+.PHONY: configure-container
+configure-container:
+	ansible-playbook ./roles/configure_container/tasks/main.yml \
+		--ask-become-pass
