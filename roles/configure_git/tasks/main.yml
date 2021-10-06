@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install git, git-gui and gitk
+      apt:
+        name:
+          - git
+          - git-gui
+          - gitk
+        state: present
+      tags:
+        - git

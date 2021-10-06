@@ -70,3 +70,8 @@ configure-shells:
 		-vv \
 	./localhost.yml --tags shell
 		
+
+.PHONY: configure-git
+configure-git:
+	ansible-playbook ./roles/configure_git/tasks/main.yml \
+		--ask-become-pass

@@ -19,6 +19,7 @@
 
       ```sh
       make configure-shells
+      make configure-git
       ```
 
 ## Install
