@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  become: yes
+
+  vars:
+    NODEJS_VERSION: '14'
+    ansible_distribution_release: 'focal'
+
+  tasks:
+    - name: Install the gpg key for nodejs LTS
+      apt_key:
+        url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+        state: present
+      tags:
+        - nodejs
+
+    - name: Install the nodejs LTS repos
+      apt_repository:
+        repo: 'deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main'
+        state: present
+        update_cache: yes
+      tags:
+        - nodejs
+
+    - name: Install the nodejs
+      apt:
+        name: nodejs
+        state: present
+      tags:
+        - nodejs
+
+    - name: 'Install Yarn Package Manager'
+      npm:
+        global: yes
+        name: '{{ item }}'
+      with_items:
+        - yarn
+      tags:
+        - nodejs
+
+    - name: 'Install node-based CLIs'
+      yarn:
+        name: '{{ item }}'
+        global: yes
+        state: present
+      with_items:
+        - tldr
+      tags:
+        - nodejs
+        - shell

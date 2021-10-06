@@ -20,6 +20,7 @@
       ```sh
       make configure-shells
       make configure-git
+      make configure-nodejs
       ```
 
 ## Install

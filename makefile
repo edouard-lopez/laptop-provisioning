@@ -75,3 +75,8 @@ configure-shells:
 configure-git:
 	ansible-playbook ./roles/configure_git/tasks/main.yml \
 		--ask-become-pass
+
+.PHONY: configure-nodejs
+configure-nodejs:
+	ansible-playbook ./roles/configure_nodejs/tasks/main.yml \
+		--ask-become-pass
