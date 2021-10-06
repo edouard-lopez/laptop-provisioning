@@ -63,13 +63,20 @@ test-locally:
 		
 .PHONY: configure-shells
 configure-shells:
-	ansible-playbook \
-		--ask-pass --ask-become-pass \
-		--inventory inventories/tests \
-		--user "${REMOTE_USER}" \
-		-vv \
-	./localhost.yml --tags shell
-		
+	ansible-playbook ./roles/configure_shells/tasks/main.yml \
+		--ask-become-pass
+
+.PHONY: configure-shell-fish
+configure-shell-fish:
+	ansible-playbook ./roles/configure_shells/tasks/main.yml \
+		--ask-become-pass \
+		--tags fish
+
+.PHONY: configure-shell-zsh
+configure-shell-zsh:
+	ansible-playbook ./roles/configure_shells/tasks/main.yml \
+		--ask-become-pass \
+		--tags zsh
 
 .PHONY: configure-git
 configure-git:

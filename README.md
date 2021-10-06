@@ -18,9 +18,11 @@
 1. :warning: Run the playbook
 
       ```sh
-      make configure-shells
       make configure-git
       make configure-nodejs
+      make configure-shell-fish
+      make configure-shell-zsh
+      make configure-shells
       ```
 
 ## Install
