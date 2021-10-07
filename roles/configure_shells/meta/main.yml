@@ -7,11 +7,5 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - all
-  galaxy_tags:
-    []
-dependencies:
-  []
-.PHONY: configure-git
-configure-git:
-	ansible-playbook ./roles/configure_git/tasks/main.yml \
-		--ask-become-pass
+  galaxy_tags: []
+dependencies: []
