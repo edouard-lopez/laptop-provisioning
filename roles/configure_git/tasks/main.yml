@@ -12,3 +12,15 @@
         state: present
       tags:
         - git
+
+    - name: Install Gitlab CLI
+      community.general.snap:
+        name: glab
+        state: present
+        channel: latest/edge
+      tags:
+        - gitlab
+    - name: Grant SSH access to Gitlab CLI
+      shell: snap connect glab:ssh-keys
+      tags:
+        - gitlab
