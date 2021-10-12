@@ -60,12 +60,17 @@ test-locally:
 		--user "${REMOTE_USER}" \
 		-vv \
 	./localhost.yml
-		
-.PHONY: configure-shells
-configure-shells:
-	ansible-playbook ./roles/configure_shells/tasks/main.yml \
-		--ask-become-pass
 
+# Basic roles		
+ROLES_PATH := ./roles/configure_*
+AVAILABLE_ROLES = $(notdir $(wildcard $(ROLES_PATH)))
+TARGET_ROLES = $(subst _,-,$(AVAILABLE_ROLES)) 
+.PHONY: $(TARGET_ROLES)
+$(TARGET_ROLES):
+	ansible-playbook ./roles/$@/tasks/main.yml \
+	--ask-become-pass
+
+# Specific roles
 .PHONY: configure-shell-fish
 configure-shell-fish:
 	ansible-playbook ./roles/configure_shells/tasks/main.yml \
@@ -77,18 +82,3 @@ configure-shell-zsh:
 	ansible-playbook ./roles/configure_shells/tasks/main.yml \
 		--ask-become-pass \
 		--tags zsh
-
-.PHONY: configure-git
-configure-git:
-	ansible-playbook ./roles/configure_git/tasks/main.yml \
-		--ask-become-pass
-
-.PHONY: configure-nodejs
-configure-nodejs:
-	ansible-playbook ./roles/configure_nodejs/tasks/main.yml \
-		--ask-become-pass
-
-.PHONY: configure-container
-configure-container:
-	ansible-playbook ./roles/configure_container/tasks/main.yml \
-		--ask-become-pass

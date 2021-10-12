@@ -18,8 +18,10 @@
 1. :warning: Run the playbook
 
       ```sh
+      make configure-container
       make configure-git
       make configure-nodejs
+      make configure-security
       make configure-shell-fish
       make configure-shell-zsh
       make configure-shells
