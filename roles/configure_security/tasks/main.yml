@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install Authy for synced 2FA
+      community.general.snap:
+        name: authy
+        state: present
+        channel: classic
+      tags:
+        - security
+        - 2FA
