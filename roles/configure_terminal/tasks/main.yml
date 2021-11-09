@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install Tmux
+      apt:
+        name:
+          - tmux
+        state: present
+      tags:
+        - terminal
+        - essential
+
+    - name: Install Monitoring tools
+      apt:
+        name:
+          - htop
+        state: present
+      tags:
+        - terminal
+        - essential
+        - monitoring
