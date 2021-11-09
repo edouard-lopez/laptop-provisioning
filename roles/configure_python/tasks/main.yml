@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install Python 3
+      apt:
+        name:
+          - python3
+        state: present
+      tags:
+        - python
+        - essential
+
+    - name: Ubuntu Requirements For Installing Pip
+      apt:
+        name:
+          - python3-pip
+      tags:
+        - python
+        - dev
+
+    - name: Install development modules
+      pip: 
+        name:
+          - pipenv
+          - pipx
+        extra_args: --user
+      tags:
+        - python
+        - dev
+
+    - name: Post-install to Unsure $PATH is correctly configured
+      shell: >
+        python3 -m pipx ensurepath
+      tags:
+        - python
+        - dev

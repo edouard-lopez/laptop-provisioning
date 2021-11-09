@@ -21,6 +21,7 @@
       make configure-container
       make configure-git
       make configure-nodejs
+      make configure-python
       make configure-security
       make configure-shell-fish
       make configure-shell-zsh
