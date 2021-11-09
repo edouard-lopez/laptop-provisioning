@@ -67,7 +67,7 @@ AVAILABLE_ROLES = $(notdir $(wildcard $(ROLES_PATH)))
 TARGET_ROLES = $(subst _,-,$(AVAILABLE_ROLES)) 
 .PHONY: $(TARGET_ROLES)
 $(TARGET_ROLES):
-	ansible-playbook ./roles/$@/tasks/main.yml \
+	ansible-playbook ./roles/$(subst -,_,$@)/tasks/main.yml \
 	--ask-become-pass
 
 # Specific roles
