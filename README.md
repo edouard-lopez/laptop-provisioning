@@ -19,6 +19,7 @@
 
       ```sh
       make configure-container
+      make configure-dotfiles
       make configure-git
       make configure-nodejs
       make configure-python
