@@ -27,6 +27,8 @@
       make configure-shell-fish
       make configure-shell-zsh
       make configure-shells
+      make configure-terminal
+      make configure-tmux
       ```
 
 ## Install

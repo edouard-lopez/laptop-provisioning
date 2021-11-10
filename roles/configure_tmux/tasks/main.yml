@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install Tmux
+      apt:
+        name:
+          - tmux
+        state: present
+      tags:
+        - terminal
+        - essential
+
+    - name: Install requirements
+      apt:
+        name:
+          - xcopy
+        state: present
+      tags:
+        - tmux
+        - terminal
+
+    - name: Remove Default Tmux Configuration Directory
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.tmux"
+        state: absent
+
+    - name: Checkout Personal Tmux Configuration From Github
+      git:
+        repo: git@github.com:edouard-lopez/tmux-config.git
+        dest: "{{ lookup('env', 'HOME') }}/.tmux"
+        depth: 1
+      tags:
+        - tmux
+        - configuration
