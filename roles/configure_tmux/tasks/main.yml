@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   become: yes
+  vars:
+    HOME: "{{ lookup('env', 'HOME') }}"
 
   tasks:
     - name: Install Tmux
@@ -23,13 +25,13 @@
 
     - name: Remove Default Tmux Configuration Directory
       ansible.builtin.file:
-        path: "{{ lookup('env', 'HOME') }}/.tmux"
+        path: '{{ HOME }}/.tmux'
         state: absent
 
     - name: Checkout Personal Tmux Configuration From Github
       git:
         repo: git@github.com:edouard-lopez/tmux-config.git
-        dest: "{{ lookup('env', 'HOME') }}/.tmux"
+        dest: '{{ HOME }}/.tmux'
         depth: 1
       tags:
         - tmux
