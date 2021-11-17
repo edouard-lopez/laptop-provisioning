@@ -2,6 +2,9 @@
 - hosts: localhost
   become: yes
 
+  vars:
+    HOME: "{{ lookup('env', 'HOME') }}"
+
   tasks:
     - name: Install Monitoring tools
       apt:
@@ -12,3 +15,30 @@
         - terminal
         - essential
         - monitoring
+
+    - name: Download asdf # Manage multiple runtime versions: https://asdf-vm.com/
+      git:
+        repo: https://github.com/asdf-vm/asdf.git
+        version: v0.8.1
+        dest: '{{ HOME }}/.asdf'
+        depth: 1
+      tags:
+        - dotfiles
+
+    - name: Install asdf
+      lineinfile:
+        path: '{{ HOME }}/.config/fish/config.fish'
+        search_string: asdf.fish
+        line: source ~/.asdf/asdf.fish
+
+    - name: Configure asdf Completions
+      shell: >
+        mkdir -p ~/.config/fish/completions; 
+        and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+
+    - name: Install asdf Plugin
+      shell: >
+        asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+        asdf plugin add python
+      args:
+        executable: /usr/bin/fish

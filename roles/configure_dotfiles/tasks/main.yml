@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
   become: yes
+  
   vars:
     HOME: "{{ lookup('env', 'HOME') }}"
 
