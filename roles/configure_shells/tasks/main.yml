@@ -40,6 +40,7 @@
           - jorgebucaran/autopair.fish
           - rafaelrinaldi/pure
           - jorgebucaran/nvm.fish
+          - fisher install paysonwallach/fish-you-should-use
       loop: '{{ fish_plugins }}'
       shell: fisher install {{ item }}
       args:
