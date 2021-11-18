@@ -26,14 +26,14 @@
 
     - name: Remove Default Tmux Configuration Directory
       ansible.builtin.file:
-        path: '{{ home }}/.tmux'
+        path: "{{ home }}/.tmux"
         state: absent
 
     - name: Checkout Personal Tmux Configuration From Github
       become: false
       git:
         repo: git@github.com:edouard-lopez/tmux-config.git
-        dest: '{{ home }}/.tmux'
+        dest: "{{ home }}/.tmux"
         depth: 1
       tags:
         - tmux

@@ -2,21 +2,23 @@
 - hosts: localhost
   become: true
 
+  tags:
+    - container
+
   vars:
-    distro_name: 'Ubuntu'
-    distro_version: '20.04'
+    distro_name: "Ubuntu"
+    distro_version: "20.04"
+    home: "{{ lookup('env', 'HOME') }}"
 
   tasks:
     - name: Install the gpg key for Buildah
       apt_key:
-        url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ distro_name }}_{{ distro_version }}/Release.key'
+        url: "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ distro_name }}_{{ distro_version }}/Release.key"
         state: present
-      tags:
-        - container
 
     - name: Add Buildah PPA source to repositories list
       apt_repository:
-        repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ distro_name }}_{{ distro_version }}/ /'
+        repo: "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ distro_name }}_{{ distro_version }}/ /"
         state: present
         update_cache: true
       tags:
@@ -36,10 +38,9 @@
       get_url:
         url: https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64
         dest: /usr/local/bin/compose-switch
-        mode: '+x'
+        mode: "+x"
       tags:
-        - container
-        - compose
+        - docker-compose
 
     - name: Define an alternatives group for the docker-compose command
       shell: >
@@ -50,14 +51,27 @@
             /usr/local/bin/compose-switch \
             99
       tags:
-        - container
-        - compose
+        - docker-compose
 
     - name: Install linter (hadolint)
       get_url:
         url: https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
         dest: /usr/local/bin/hadolint
-        mode: '+x'
+        mode: "+x"
       tags:
         - container
         - linter
+        - fish
+        - shell
+
+    - name: Symlink `docker` to `podman`
+      file:
+        src: /usr/bin/podman
+        dest: "{{ home }}/.local/bin/docker"
+        owner: "{{ lookup('env', 'USER') }}"
+        group: "{{ lookup('env', 'USER') }}"
+        state: link
+      tags:
+        - shell
+        - fish
+        - bash
