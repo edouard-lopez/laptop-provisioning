@@ -32,31 +32,23 @@
       tags:
         - container
 
-    - name: Ansible file module create directory
-      file:
-        path: /usr/local/lib/docker/cli-plugins/
-        state: directory
-      tags:
-        - container
-        - compose
-
-    - name: Install docker-compose
+    - name: Install Compose Switch
       get_url:
-        url: https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64
-        dest: /usr/local/lib/docker/cli-plugins/docker-compose
+        url: https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64
+        dest: /usr/local/bin/compose-switch
         mode: '+x'
       tags:
         - container
         - compose
 
-    - name: Add alias `docker-compose` > `docker compose`
+    - name: Define an alternatives group for the docker-compose command
       shell: >
-        function docker-compose
-          docker compose
-        end
-      args:
-        executable: /usr/bin/fish
+        update-alternatives \
+          --install \
+            /usr/local/bin/docker-compose \
+            docker-compose \
+            /usr/local/bin/compose-switch \
+            99
       tags:
         - container
-        - fish
-        - shell
+        - compose
