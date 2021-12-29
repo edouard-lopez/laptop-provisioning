@@ -30,6 +30,7 @@
         state: absent
 
     - name: Checkout Personal Tmux Configuration From Github
+      become: false
       git:
         repo: git@github.com:edouard-lopez/tmux-config.git
         dest: '{{ HOME }}/.tmux'
