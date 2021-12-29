@@ -4,19 +4,22 @@
 
   tags:
     - shell
-      
+
   tasks:
     - name: Fish tasks
       tags:
-      - fish
-      
+        - fish
+
       block:
+      - name: Add Fish 3.x PPA source to repositories list
+        apt_repository:
+          repo: ppa:fish-shell/release-3
+          state: present
+
       - name: Install Fish Shell
         apt:
           name: fish
-          state: present
-        tags:
-          - fish
+          state: latest
 
       - name: Download Fisher
         get_url:
@@ -24,14 +27,12 @@
           dest: /tmp/fisher_install
           mode: 755
 
-
       - name: Install Fisher
         shell: >
           source /tmp/fisher_install
           && fisher install jorgebucaran/fisher
         args:
           executable: /usr/bin/fish
-
 
       - name: Install Fish Plugins via Fisher
         vars:
@@ -61,7 +62,6 @@
         shell: /tmp/tacklebox_install
         args:
           executable: /usr/bin/fish
-
 
     - name: Install Zsh Shell
       apt:
