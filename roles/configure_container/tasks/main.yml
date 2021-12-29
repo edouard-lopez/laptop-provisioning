@@ -14,7 +14,7 @@
       tags:
         - container
 
-    - name: Add Buildah source to repositories list
+    - name: Add Buildah PPA source to repositories list
       apt_repository:
         repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ID }}_{{ VERSION_ID }}/ /'
         state: present
