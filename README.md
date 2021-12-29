@@ -22,6 +22,7 @@
       make configure-dotfiles
       make configure-git
       make configure-nodejs
+      make configure-offline
       make configure-python
       make configure-security
       make configure-shell-fish
