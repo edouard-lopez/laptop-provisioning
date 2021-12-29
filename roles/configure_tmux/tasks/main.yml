@@ -17,7 +17,8 @@
     - name: Install requirements
       apt:
         name:
-          - xcopy
+          # - xcopy # doesn't exist anymore?
+          - xclip
         state: latest
       tags:
         - tmux
