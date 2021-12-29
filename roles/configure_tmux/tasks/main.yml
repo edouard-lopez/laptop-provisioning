@@ -9,7 +9,7 @@
       apt:
         name:
           - tmux
-        state: present
+        state: latest
       tags:
         - terminal
         - essential
@@ -18,7 +18,7 @@
       apt:
         name:
           - xcopy
-        state: present
+        state: latest
       tags:
         - tmux
         - terminal

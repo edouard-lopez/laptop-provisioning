@@ -25,7 +25,7 @@
     - name: Install the nodejs
       apt:
         name: nodejs
-        state: present
+        state: latest
       tags:
         - nodejs
 

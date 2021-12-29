@@ -9,7 +9,7 @@
           - git
           - git-gui
           - gitk
-        state: present
+        state: latest
       tags:
         - git
 

@@ -10,7 +10,7 @@
       apt:
         name:
           - htop
-        state: present
+        state: latest
       tags:
         - terminal
         - essential

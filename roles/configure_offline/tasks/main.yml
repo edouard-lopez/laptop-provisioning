@@ -19,4 +19,4 @@
       - name: Install Zeal
         apt:
           name: zeal
-          state: present
+          state: latest

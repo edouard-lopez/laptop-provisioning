@@ -66,6 +66,6 @@
     - name: Install Zsh Shell
       apt:
         name: zsh
-        state: present
+        state: latest
       tags:
         - zsh
