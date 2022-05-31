@@ -1,0 +1,47 @@
+---
+- hosts: localhost
+  become: yes
+
+  tags:
+    - terminal
+    - ranger
+
+  vars:
+    HOME: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+    - name: Fish tasks
+    tags:
+      - ranger
+
+    block:
+    - name: Install Ranger Terminal File Manager
+      pip:
+        name: ranger-fm
+        extra_args: --user
+
+    - name: Generate Ranger config
+        shell: ranger --copy-config=scope
+
+    - name: Install Dependencies for Tool to Preview in Terminal
+      apt:
+        - ibx11-dev
+        - libxtst-dev
+        - python3-docopt
+        - python3-xlib
+        - python3-pil
+        - python3-attr
+
+    - name: Install Tool to Preview in Terminal
+      pip:
+        name: ueberzug
+        extra_args: --user
+
+    - name: Add config for Preview in Terminal Tool
+      blockinfile:
+        path: '{{ HOME }}/.config/ranger/rc.conf'
+        block: |
+          set preview_images true
+          set preview_images_method ueberzug
+        create: yes
+

@@ -5,6 +5,13 @@
   vars:
     HOME: "{{ lookup('env', 'HOME') }}"
 
+
+- name: Ranger File Manager playbook
+  import_playbook: ranger.yml
+  tags:
+    - ranger
+    - terminal
+
   tasks:
     - name: Install Monitoring tools
       apt:
