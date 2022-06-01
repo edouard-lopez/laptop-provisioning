@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   name: Provision a machine with basics
-  become: yes
+  become: true
 
   roles:
     - role: deploy_ssh_keys

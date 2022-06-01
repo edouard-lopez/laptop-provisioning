@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  become: yes
+  become: true
 
   tasks:
     - name: Install Authy for synced 2FA
