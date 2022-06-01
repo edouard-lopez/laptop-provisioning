@@ -10,7 +10,7 @@
       become: false
       git:
         repo: git@github.com:edouard-lopez/dotfiles.git
-        dest: '{{ HOME }}/dotfiles'
+        dest: '{{ home }}/dotfiles'
         depth: 1
       tags:
         - dotfiles
@@ -18,18 +18,18 @@
     - name: Copy *rc Files
       copy:
         src: '{{ item }}'
-        dest: '{{ HOME }}/'
+        dest: '{{ home }}/'
         backup: yes
       with_fileglob:
-        - '{{ HOME }}/dotfiles/*rc'
+        - '{{ home }}/dotfiles/*rc'
       tags:
         - configuration
         - shell
 
     - name: Set Configuration for Fish
       copy:
-        src: '{{ HOME }}/dotfiles/config.fish'
-        dest: '{{ HOME }}/.config/fish/config.fish'
+        src: '{{ home }}/dotfiles/config.fish'
+        dest: '{{ home }}/.config/fish/config.fish'
         backup: yes
 
       tags:

@@ -4,7 +4,6 @@
   vars:
     home: "{{ lookup('env', 'HOME') }}"
 
-
 - name: Ranger File Manager playbook
   import_playbook: ranger.yml
   tags:
@@ -28,16 +27,17 @@
       git:
         repo: https://github.com/asdf-vm/asdf.git
         version: v0.8.1
-        dest: '{{ HOME }}/.asdf'
+        dest: '{{ home }}/.asdf'
         depth: 1
       tags:
         - dotfiles
 
     - name: Install asdf
       lineinfile:
-        path: '{{ HOME }}/.config/fish/config.fish'
+        path: '{{ home }}/.config/fish/config.fish'
         search_string: asdf.fish
-        line: source ~/.asdf/asdf.fish
+        line: source '{{ home }}/.asdf/asdf.fish'
+
 
     - name: Configure asdf Completions
       shell: >
