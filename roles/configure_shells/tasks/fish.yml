@@ -11,54 +11,54 @@
         - fish
 
       block:
-      - name: Add Fish 3.x PPA source to repositories list
-        apt_repository:
-          repo: ppa:fish-shell/release-3
-          state: present
+        - name: Add Fish 3.x PPA source to repositories list
+          apt_repository:
+            repo: ppa:fish-shell/release-3
+            state: present
 
-      - name: Install Fish Shell
-        apt:
-          name: fish
-          state: latest
+        - name: Install Fish Shell
+          apt:
+            name: fish
+            state: latest
 
-      - name: Download Fisher
-        get_url:
-          url: https://git.io/fisher
-          dest: /tmp/fisher_install
-          mode: 755
+        - name: Download Fisher
+          get_url:
+            url: https://git.io/fisher
+            dest: /tmp/fisher_install
+            mode: 755
 
-      - name: Install Fisher
-        shell: >
-          source /tmp/fisher_install
-          && fisher install jorgebucaran/fisher
-        args:
-          executable: /usr/bin/fish
+        - name: Install Fisher
+          shell: >
+            source /tmp/fisher_install
+            && fisher install jorgebucaran/fisher
+          args:
+            executable: /usr/bin/fish
 
-      - name: Install Fish Plugins via Fisher
-        vars:
-          fish_plugins:
-            - jorgebucaran/fishtape
-            - barnybug/docker-fish-completion
-            - decors/fish-colored-man
-            - jorgebucaran/fisher
-            - jorgebucaran/autopair.fish
-            - rafaelrinaldi/pure
-            - jorgebucaran/nvm.fish
-            - paysonwallach/fish-you-should-use
-        loop: '{{ fish_plugins }}'
-        shell: fisher install {{ item }}
-        args:
-          executable: /usr/bin/fish
-        tags:
-          - plugins
+        - name: Install Fish Plugins via Fisher
+          vars:
+            fish_plugins:
+              - jorgebucaran/fishtape
+              - barnybug/docker-fish-completion
+              - decors/fish-colored-man
+              - jorgebucaran/fisher
+              - jorgebucaran/autopair.fish
+              - rafaelrinaldi/pure
+              - jorgebucaran/nvm.fish
+              - paysonwallach/fish-you-should-use
+          loop: '{{ fish_plugins }}'
+          shell: fisher install {{ item }}
+          args:
+            executable: /usr/bin/fish
+          tags:
+            - plugins
 
-      - name: Download Tacklebox Fish Plugins
-        get_url:
-          url: https://raw.githubusercontent.com/justinmayer/tacklebox/master/tools/install.fish
-          dest: /tmp/tacklebox_install
-          mode: 755
+        - name: Download Tacklebox Fish Plugins
+          get_url:
+            url: https://raw.githubusercontent.com/justinmayer/tacklebox/master/tools/install.fish
+            dest: /tmp/tacklebox_install
+            mode: 755
 
-      - name: Install Tacklebox Fish Plugins
-        shell: /tmp/tacklebox_install
-        args:
-          executable: /usr/bin/fish
+        - name: Install Tacklebox Fish Plugins
+          shell: /tmp/tacklebox_install
+          args:
+            executable: /usr/bin/fish

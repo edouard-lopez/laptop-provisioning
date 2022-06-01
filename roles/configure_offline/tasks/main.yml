@@ -11,12 +11,12 @@
         - zeal
 
       block:
-      - name: Add Zeal PPA source to repositories list
-        apt_repository:
-          repo: ppa:zeal-developers/ppa
-          state: present
+        - name: Add Zeal PPA source to repositories list
+          apt_repository:
+            repo: ppa:zeal-developers/ppa
+            state: present
 
-      - name: Install Zeal
-        apt:
-          name: zeal
-          state: latest
+        - name: Install Zeal
+          apt:
+            name: zeal
+            state: latest

@@ -41,7 +41,7 @@
 
     - name: Configure asdf Completions
       shell: >
-        mkdir -p ~/.config/fish/completions; 
+        mkdir -p ~/.config/fish/completions;
         and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 
     - name: Install asdf Plugin
