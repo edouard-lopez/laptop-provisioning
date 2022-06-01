@@ -2,7 +2,7 @@
 - hosts: localhost
   become: true
   vars:
-    HOME: "{{ lookup('env', 'HOME') }}"
+    home: "{{ lookup('env', 'HOME') }}"
 
   tasks:
     - name: Install Tmux
