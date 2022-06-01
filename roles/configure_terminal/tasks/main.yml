@@ -26,7 +26,7 @@
       become: false
       git:
         repo: https://github.com/asdf-vm/asdf.git
-        version: v0.8.1
+        version: v0.10.0
         dest: '{{ home }}/.asdf'
         depth: 1
       tags:
@@ -38,15 +38,37 @@
         search_string: asdf.fish
         line: source '{{ home }}/.asdf/asdf.fish'
 
+    - name: Create fish completion directory
+      file:
+        path: '{{ home }}/.config/fish/completions'
+        mode: u=rwx,g=rx,o=rx
 
-    - name: Configure asdf Completions
-      shell: >
-        mkdir -p ~/.config/fish/completions;
-        and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+    - name: Create a symbolic link
+      ansible.builtin.file:
+        src: '{{ home }}/.asdf/completions/asdf.fish'
+        dest: '{{ home }}/.config/fish/completions/asdf.fish'
+        state: link
 
-    - name: Install asdf Plugin
-      shell: >
-        asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-        asdf plugin add python
+    # ASDF python
+    - name: check for asdf python Plugin
+      stat:
+        path: '{{ home }}/.asdf/plugins/python'
+      register: asdf_python_plugin
+
+    - name: Install asdf Plugin for nodejs
+      command: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
       args:
         executable: /usr/bin/fish
+      when: asdf_python_plugin.stat.exists == False
+
+    # ASDF nodejs
+    - name: check for asdf nodejs Plugin
+      stat:
+        path: '{{ home }}/.asdf/plugins/nodejs'
+      register: asdf_nodejs_plugin
+
+    - name: Install asdf Plugin for nodejs
+      command: asdf plugin add nodejs
+      args:
+        executable: /usr/bin/fish
+      when: asdf_nodejs_plugin.stat.exists == False
