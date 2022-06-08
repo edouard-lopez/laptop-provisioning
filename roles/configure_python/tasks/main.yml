@@ -30,9 +30,18 @@
         - python
         - dev
 
-    - name: Post-install to Unsure $PATH is correctly configured
+    - name: Post-install to ensure $PATH is correctly configured
       shell: >
         python3 -m pipx ensurepath
       tags:
         - python
         - dev
+
+    - name: Download Poetry
+      get_url:
+        url: https://install.python-poetry.org
+        dest: /tmp/poetry-installer
+        mode: 755
+
+    - name: Install Poetry
+      shell: python3 /tmp/poetry-installer
