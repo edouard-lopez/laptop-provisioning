@@ -52,3 +52,12 @@
       tags:
         - container
         - compose
+
+    - name: Install linter (hadolint)
+      get_url:
+        url: https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
+        dest: /usr/local/bin/hadolint
+        mode: '+x'
+      tags:
+        - container
+        - linter
