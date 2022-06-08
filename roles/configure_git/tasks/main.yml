@@ -14,13 +14,27 @@
         - git
 
     - name: Install Gitlab CLI
-      community.general.snap:
-        name: glab
+      apt:
+        deb: https://github.com/profclems/glab/releases/download/v1.22.0/glab_1.22.0_Linux_x86_64.deb
+      tags:
+        - gitlab
+
+    - name: 'Github CLI: Install the gpg key'
+      apt_key:
+        url: 'https://cli.github.com/packages/githubcli-archive-keyring.gpg'
         state: present
-        channel: latest/edge
+
+    - name: 'Github CLI: Add source to repositories list'
+      apt_repository:
+        repo: deb https://cli.github.com/packages stable main
+        state: present
+        update_cache: true
       tags:
-        - gitlab
-    - name: Grant SSH access to Gitlab CLI
-      shell: snap connect glab:ssh-keys
+        - github-cli
+
+    - name: Install the gh
+      apt:
+        name: gh
+        state: latest
       tags:
-        - gitlab
+        - github-cli
