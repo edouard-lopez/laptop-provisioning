@@ -5,7 +5,8 @@ REMOTE_USER ?= ${USER}
 
 default: \
 	install-requirements \
-	install-dev-requirements
+	install-dependencies \
+	install-dev-dependencies
 
 
 .PHONY: check-playbook
@@ -29,23 +30,23 @@ deploy-ssh-key:
 
 .PHONY: install-requirements
 install-requirements: 
-	python3 -m pip install \
-		--requirement requirements.txt
+	curl \
+		--show-error \
+		--silent \
+		--location \
+	 https://install.python-poetry.org \
+	| python3 -
+
+.PHONY: install-dependencies
+install-dependencies: 
+	poetry install
 	ansible-galaxy install \
 		--role-file requirements.yml
 
-.PHONY: install-dev-requirements
-install-dev-requirements:
+.PHONY: install-dev-dependencies
+install-dev-dependencies:
 	sudo apt-get install --yes \
-		python3-pip \
 		libssl-dev
-	python3 -m pip install \
-		--upgrade \
-		setuptools \
-		testresources \
-		"molecule[ansible]" \
-		"molecule[lint]" \
-		"ansible-lint[yamllint]"
 		
 .PHONY: lint-playbooks
 lint-playbooks:

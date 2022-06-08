@@ -38,13 +38,13 @@
 2. Install dependencies:
 
       ```sh
-      make install-requirements
+      make install-dependencies
       ```
 
 3. **Optional:** Developer tooling (linters, tests runner)
 
       ```sh
-      make install-dev-requirements
+      make install-dev-dependencies
       ```
 
 ## License
