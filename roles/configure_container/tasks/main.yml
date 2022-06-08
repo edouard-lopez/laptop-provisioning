@@ -3,22 +3,22 @@
   become: true
 
   vars:
-    ID: 'Ubuntu'
-    VERSION_ID: '20.04'
+    distro_name: 'Ubuntu'
+    distro_version: '20.04'
 
   tasks:
     - name: Install the gpg key for Buildah
       apt_key:
-        url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ ID }}_{{ VERSION_ID }}/Release.key'
+        url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ distro_name }}_{{ distro_version }}/Release.key'
         state: present
       tags:
         - container
 
     - name: Add Buildah PPA source to repositories list
       apt_repository:
-        repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ID }}_{{ VERSION_ID }}/ /'
+        repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ distro_name }}_{{ distro_version }}/ /'
         state: present
-        update_cache: yes
+        update_cache: true
       tags:
         - container
 
