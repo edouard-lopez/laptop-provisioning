@@ -34,18 +34,11 @@
 
 ## Install
 
-1. Refer to [official documentation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
-2. Install dependencies:
+You can install everything you need with:
 
-      ```sh
-      make install-dependencies
-      ```
-
-3. **Optional:** Developer tooling (linters, tests runner)
-
-      ```sh
-      make install-dev-dependencies
-      ```
+```sh
+make  # install requirements, dependencies and dev-dependencies
+```
 
 ## License
 
