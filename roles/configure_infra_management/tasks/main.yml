@@ -13,3 +13,16 @@
         state: present
       tags:
         - k9s
+
+    - name: Install Helm (package manager for Kubernetes)
+      get_url:
+        url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        dest: /tmp/helm.sh
+        mode: 'u+x'
+      tags:
+        - helm
+
+    - name: Install Helm
+      shell: /tmp/helm.sh
+      tags:
+        - helm
