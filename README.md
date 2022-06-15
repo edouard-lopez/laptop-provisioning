@@ -40,6 +40,24 @@ You can install everything you need with:
 make  # install requirements, dependencies and dev-dependencies
 ```
 
+## Debug a Task
+
+Register your task's output with:
+
+```diff
+ - name: Foo
+       shell: echo bar
++      register: result
+```
+
+Then add a debug task after:
+
+```diff
++- name: Print return information from the previous task
++  ansible.builtin.debug:
++    var: result
+```
+
 ## License
 
 [MIT][MIT]
