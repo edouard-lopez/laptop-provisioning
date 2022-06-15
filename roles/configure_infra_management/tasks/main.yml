@@ -65,3 +65,15 @@
         executable: /usr/bin/fish
       tags:
         - kubectl
+
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: '../files/kube-config'
+        dest: '{{ home }}/.kube/config'
+        owner: "{{ lookup('env', 'USER') }}"
+        group: "{{ lookup('env', 'USER') }}"
+        mode: '0600'
+        force: false
+      tags:
+        - kubectl
+        - config
