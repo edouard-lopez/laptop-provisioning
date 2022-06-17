@@ -1,50 +1,42 @@
 ---
-- hosts: localhost
-  become: true
+- name: Install the gpg key for nodejs LTS
+  apt_key:
+    url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+    state: present
+  tags:
+    - nodejs
 
-  vars:
-    NODEJS_VERSION: '14'
-    ansible_distribution_release: 'focal'
+- name: Add Nodejs PPA source to repositories list
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_{{ nodejs_version }}.x {{ distribution_release }} main'
+    state: present
+    update_cache: true
+  tags:
+    - nodejs
 
-  tasks:
-    - name: Install the gpg key for nodejs LTS
-      apt_key:
-        url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
-        state: present
-      tags:
-        - nodejs
+- name: Install the nodejs
+  apt:
+    name: nodejs
+    state: present
+  tags:
+    - nodejs
 
-    - name: Add Nodejs PPA source to repositories list
-      apt_repository:
-        repo: 'deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main'
-        state: present
-        update_cache: yes
-      tags:
-        - nodejs
+- name: 'Install Yarn Package Manager'
+  npm:
+    global: true
+    name: '{{ item }}'
+  with_items:
+    - yarn
+  tags:
+    - nodejs
 
-    - name: Install the nodejs
-      apt:
-        name: nodejs
-        state: latest
-      tags:
-        - nodejs
-
-    - name: 'Install Yarn Package Manager'
-      npm:
-        global: yes
-        name: '{{ item }}'
-      with_items:
-        - yarn
-      tags:
-        - nodejs
-
-    - name: 'Install node-based CLIs'
-      yarn:
-        name: '{{ item }}'
-        global: yes
-        state: present
-      with_items:
-        - tldr
-      tags:
-        - nodejs
-        - shell
+- name: 'Install node-based CLIs'
+  yarn:
+    name: '{{ item }}'
+    global: true
+    state: present
+  with_items:
+    - tldr
+  tags:
+    - nodejs
+    - shell

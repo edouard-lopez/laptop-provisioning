@@ -1,0 +1,72 @@
+---
+- name: Install k9s
+  community.general.snap:
+    name: k9s
+    state: present
+  tags:
+    - k9s
+
+- name: Install Helm (package manager for Kubernetes)
+  get_url:
+    url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    dest: /tmp/helm.sh
+    mode: 'u+x'
+  tags:
+    - helm
+
+- name: Install Helm
+  command: /tmp/helm.sh
+  when: true
+  tags:
+    - helm
+
+- name: Install Krew
+  shell: |
+    set -e -o pipefail
+    begin
+      set -x; set temp_dir (mktemp -d); cd "$temp_dir" &&
+      set OS (uname | tr '[:upper:]' '[:lower:]') &&
+      set ARCH (uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/') &&
+      set KREW krew-$OS"_"$ARCH &&
+      curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/$KREW.tar.gz" &&
+      tar zxvf $KREW.tar.gz &&
+      ./$KREW install krew &&
+      set -e KREW; set -e temp_dir
+    end
+  when: true
+  args:
+    executable: /usr/bin/fish
+  tags:
+    - kubectl
+
+- name: Add krew to $PATH
+  lineinfile:
+    path: '{{ home }}/.config/fish/config.fish'
+    search_string: krew
+    line: set --append --export --global PATH $HOME/.krew/bin
+  tags:
+    - kubectl
+
+- name: Install `kubectx` (context) and `kudens` (namespace)
+  shell: |
+    source {{ home }}/.config/fish/config.fish
+    kubectl krew install ctx
+    kubectl krew install ns
+    kubectl krew install oidc-login
+  args:
+    executable: /usr/bin/fish
+  when: true
+  tags:
+    - kubectl
+
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: 'files/kube-config'
+    dest: '{{ home }}/.kube/config'
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: '0600'
+    force: false
+  tags:
+    - kubectl
+    - config

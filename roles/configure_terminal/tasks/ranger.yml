@@ -26,8 +26,6 @@
     extra_args: --user
 
 - name: Add config for Preview in Terminal Tool
-  vars:
-    home: "{{ lookup('env', 'HOME') }}"
   blockinfile:
     path: '{{ home }}/.config/ranger/rc.conf'
     block: |

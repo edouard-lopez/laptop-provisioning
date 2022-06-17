@@ -1,71 +1,65 @@
 ---
-- hosts: localhost
+- name: Ranger File Manager playbook
+  include_tasks: ranger.yml
 
-  vars:
-    home: "{{ lookup('env', 'HOME') }}"
+- name: Install Monitoring tools
+  become: true
+  apt:
+    name:
+      - htop
+    state: present
+  tags:
+    - terminal
+    - essential
+    - monitoring
 
-  tasks:
-    - name: Ranger File Manager playbook
-      include_tasks: ranger.yml
+- name: Download asdf # Manage multiple runtime versions: https://asdf-vm.com/
+  become: false
+  git:
+    repo: https://github.com/asdf-vm/asdf.git
+    version: v0.10.0
+    dest: '{{ home }}/.asdf'
+    depth: 1
+  tags:
+    - dotfiles
 
-    - name: Install Monitoring tools
-      become: true
-      apt:
-        name:
-          - htop
-        state: present
-      tags:
-        - terminal
-        - essential
-        - monitoring
+- name: Install asdf
+  lineinfile:
+    path: '{{ home }}/.config/fish/config.fish'
+    search_string: asdf.fish
+    line: source "$HOME/.asdf/asdf.fish"
 
-    - name: Download asdf # Manage multiple runtime versions: https://asdf-vm.com/
-      become: false
-      git:
-        repo: https://github.com/asdf-vm/asdf.git
-        version: v0.10.0
-        dest: '{{ home }}/.asdf'
-        depth: 1
-      tags:
-        - dotfiles
+- name: Create fish completion directory
+  file:
+    path: '{{ home }}/.config/fish/completions'
+    mode: u=rwx,g=rx,o=rx
 
-    - name: Install asdf
-      lineinfile:
-        path: '{{ home }}/.config/fish/config.fish'
-        search_string: asdf.fish
-        line: source "$HOME/.asdf/asdf.fish"
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: '{{ home }}/.asdf/completions/asdf.fish'
+    dest: '{{ home }}/.config/fish/completions/asdf.fish'
+    state: link
 
-    - name: Create fish completion directory
-      file:
-        path: '{{ home }}/.config/fish/completions'
-        mode: u=rwx,g=rx,o=rx
+# ASDF python
+- name: check for asdf python Plugin
+  stat:
+    path: '{{ home }}/.asdf/plugins/python'
+  register: asdf_python_plugin
 
-    - name: Create a symbolic link
-      ansible.builtin.file:
-        src: '{{ home }}/.asdf/completions/asdf.fish'
-        dest: '{{ home }}/.config/fish/completions/asdf.fish'
-        state: link
+- name: Install asdf Plugin for nodejs
+  command: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+  args:
+    executable: /usr/bin/fish
+  when: asdf_python_plugin.stat.exists == False
 
-    # ASDF python
-    - name: check for asdf python Plugin
-      stat:
-        path: '{{ home }}/.asdf/plugins/python'
-      register: asdf_python_plugin
+# ASDF nodejs
+- name: check for asdf nodejs Plugin
+  stat:
+    path: '{{ home }}/.asdf/plugins/nodejs'
+  register: asdf_nodejs_plugin
 
-    - name: Install asdf Plugin for nodejs
-      command: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-      args:
-        executable: /usr/bin/fish
-      when: asdf_python_plugin.stat.exists == False
-
-    # ASDF nodejs
-    - name: check for asdf nodejs Plugin
-      stat:
-        path: '{{ home }}/.asdf/plugins/nodejs'
-      register: asdf_nodejs_plugin
-
-    - name: Install asdf Plugin for nodejs
-      command: asdf plugin add nodejs
-      args:
-        executable: /usr/bin/fish
-      when: asdf_nodejs_plugin.stat.exists == False
+- name: Install asdf Plugin for nodejs
+  command: asdf plugin add nodejs
+  args:
+    executable: /usr/bin/fish
+  when: asdf_nodejs_plugin.stat.exists == False

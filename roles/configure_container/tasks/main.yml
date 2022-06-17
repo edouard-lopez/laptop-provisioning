@@ -1,94 +1,81 @@
 ---
-- hosts: localhost
-  become: true
+- name: Install the gpg key for Buildah
+  apt_key:
+    url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ distro_name }}_{{ distro_version }}/Release.key'
+    state: present
 
+- name: Add Buildah PPA source to repositories list
+  apt_repository:
+    repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ distro_name }}_{{ distro_version }}/ /'
+    state: present
+    update_cache: true
   tags:
     - container
 
-  vars:
-    distro_name: 'Ubuntu'
-    distro_version: '20.04'
-    home: "{{ lookup('env', 'HOME') }}"
-    goss_version: v0.3.18 # see https://github.com/aelsabbahy/goss/releases
+- name: Install the Docker tooling alternatives
+  apt:
+    name:
+      - buildah
+      - skopeo
+      - podman
+    state: present
+  tags:
+    - container
 
-  tasks:
-    - name: Install the gpg key for Buildah
-      apt_key:
-        url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ distro_name }}_{{ distro_version }}/Release.key'
-        state: present
+- name: Install Compose Switch
+  get_url:
+    url: https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64
+    dest: /usr/local/bin/compose-switch
+    mode: '+x'
+  tags:
+    - docker-compose
 
-    - name: Add Buildah PPA source to repositories list
-      apt_repository:
-        repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ distro_name }}_{{ distro_version }}/ /'
-        state: present
-        update_cache: true
-      tags:
-        - container
+- name: Define an alternatives group for the docker-compose command
+  shell: >
+    update-alternatives \
+      --install \
+        /usr/local/bin/docker-compose \
+        docker-compose \
+        /usr/local/bin/compose-switch \
+        99
+  tags:
+    - docker-compose
 
-    - name: Install the Docker tooling alternatives
-      apt:
-        name:
-          - buildah
-          - skopeo
-          - podman
-        state: latest
-      tags:
-        - container
+- name: Install linter (hadolint)
+  get_url:
+    url: https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
+    dest: /usr/local/bin/hadolint
+    mode: '+x'
+  tags:
+    - container
+    - linter
 
-    - name: Install Compose Switch
-      get_url:
-        url: https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64
-        dest: /usr/local/bin/compose-switch
-        mode: '+x'
-      tags:
-        - docker-compose
+- name: Symlink `docker` to `podman`
+  file:
+    src: /usr/bin/podman
+    dest: '{{ home }}/.local/bin/docker'
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    state: link
+  tags:
+    - shell
+    - fish
+    - bash
 
-    - name: Define an alternatives group for the docker-compose command
-      shell: >
-        update-alternatives \
-          --install \
-            /usr/local/bin/docker-compose \
-            docker-compose \
-            /usr/local/bin/compose-switch \
-            99
-      tags:
-        - docker-compose
+- name: Install Docker test with dgoss
+  get_url:
+    url: https://raw.githubusercontent.com/aelsabbahy/goss/master/extras/dgoss/dgoss
+    dest: /usr/local/bin/dgoss
+    mode: '+rx'
+  tags:
+    - container
+    - test
 
-    - name: Install linter (hadolint)
-      get_url:
-        url: https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
-        dest: /usr/local/bin/hadolint
-        mode: '+x'
-      tags:
-        - container
-        - linter
-
-    - name: Symlink `docker` to `podman`
-      file:
-        src: /usr/bin/podman
-        dest: '{{ home }}/.local/bin/docker'
-        owner: "{{ lookup('env', 'USER') }}"
-        group: "{{ lookup('env', 'USER') }}"
-        state: link
-      tags:
-        - shell
-        - fish
-        - bash
-
-    - name: Install Docker test with dgoss
-      get_url:
-        url: https://raw.githubusercontent.com/aelsabbahy/goss/master/extras/dgoss/dgoss
-        dest: /usr/local/bin/dgoss
-        mode: '+rx'
-      tags:
-        - container
-        - test
-
-    - name: Install goss
-      get_url:
-        url: https://github.com/aelsabbahy/goss/releases/download/{{goss_version}}/goss-linux-amd64
-        dest: /usr/local/bin/goss
-        mode: '+rx'
-      tags:
-        - container
-        - test
+- name: Install goss
+  get_url:
+    url: https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-amd64
+    dest: /usr/local/bin/goss
+    mode: '+rx'
+  tags:
+    - container
+    - test

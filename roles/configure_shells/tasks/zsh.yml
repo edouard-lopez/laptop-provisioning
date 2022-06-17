@@ -1,14 +1,7 @@
 ---
-- hosts: localhost
-  become: true
-
+- name: Install Zsh Shell
+  apt:
+    name: zsh
+    state: present
   tags:
-    - shell
-
-  tasks:
-    - name: Install Zsh Shell
-      apt:
-        name: zsh
-        state: latest
-      tags:
-        - zsh
+    - zsh

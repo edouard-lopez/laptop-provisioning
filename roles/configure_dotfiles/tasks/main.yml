@@ -1,37 +1,32 @@
 ---
-- hosts: localhost
-  become: true
+- name: Checkout Dotfiles From Github
+  become: false
+  git:
+    repo: git@github.com:edouard-lopez/dotfiles.git
+    dest: '{{ home }}/dotfiles'
+    depth: 1
+    version: master
+  tags:
+    - dotfiles
 
-  vars:
-    home: "{{ lookup('env', 'HOME') }}"
+- name: Copy *rc Files
+  copy:
+    src: '{{ item }}'
+    dest: '{{ home }}/'
+    backup: true
+    mode: 'u=rwx,go=rx'
+  with_fileglob:
+    - '{{ home }}/dotfiles/*rc'
+  tags:
+    - configuration
+    - shell
 
-  tasks:
-    - name: Checkout Dotfiles From Github
-      become: false
-      git:
-        repo: git@github.com:edouard-lopez/dotfiles.git
-        dest: '{{ home }}/dotfiles'
-        depth: 1
-      tags:
-        - dotfiles
-
-    - name: Copy *rc Files
-      copy:
-        src: '{{ item }}'
-        dest: '{{ home }}/'
-        backup: yes
-      with_fileglob:
-        - '{{ home }}/dotfiles/*rc'
-      tags:
-        - configuration
-        - shell
-
-    - name: Set Configuration for Fish
-      copy:
-        src: '{{ home }}/dotfiles/config.fish'
-        dest: '{{ home }}/.config/fish/config.fish'
-        backup: yes
-
-      tags:
-        - fish
-        - shell
+- name: Set Configuration for Fish
+  copy:
+    src: '{{ home }}/dotfiles/config.fish'
+    dest: '{{ home }}/.config/fish/config.fish'
+    backup: true
+    mode: 'u=rwx,go=rx'
+  tags:
+    - fish
+    - shell

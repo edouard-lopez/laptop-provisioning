@@ -1,40 +1,36 @@
 ---
-- hosts: localhost
-  become: true
+- name: Install git, git-gui and gitk
+  apt:
+    name:
+      - git
+      - git-gui
+      - gitk
+    state: present
+  tags:
+    - git
 
-  tasks:
-    - name: Install git, git-gui and gitk
-      apt:
-        name:
-          - git
-          - git-gui
-          - gitk
-        state: latest
-      tags:
-        - git
+- name: Install Gitlab CLI
+  apt:
+    deb: https://github.com/profclems/glab/releases/download/v1.22.0/glab_1.22.0_Linux_x86_64.deb
+  tags:
+    - gitlab
 
-    - name: Install Gitlab CLI
-      apt:
-        deb: https://github.com/profclems/glab/releases/download/v1.22.0/glab_1.22.0_Linux_x86_64.deb
-      tags:
-        - gitlab
+- name: 'Github CLI: Install the gpg key'
+  apt_key:
+    url: 'https://cli.github.com/packages/githubcli-archive-keyring.gpg'
+    state: present
 
-    - name: 'Github CLI: Install the gpg key'
-      apt_key:
-        url: 'https://cli.github.com/packages/githubcli-archive-keyring.gpg'
-        state: present
+- name: 'Github CLI: Add source to repositories list'
+  apt_repository:
+    repo: deb https://cli.github.com/packages stable main
+    state: present
+    update_cache: true
+  tags:
+    - github-cli
 
-    - name: 'Github CLI: Add source to repositories list'
-      apt_repository:
-        repo: deb https://cli.github.com/packages stable main
-        state: present
-        update_cache: true
-      tags:
-        - github-cli
-
-    - name: Install the gh
-      apt:
-        name: gh
-        state: latest
-      tags:
-        - github-cli
+- name: Install the gh
+  apt:
+    name: gh
+    state: present
+  tags:
+    - github-cli

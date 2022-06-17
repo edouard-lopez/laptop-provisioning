@@ -3,17 +3,33 @@
   name: Provision a machine with basics
   become: true
 
+  vars:
+    distro_name: 'Ubuntu'
+    distro_version: '20.04'
+    home: "{{ lookup('env', 'HOME') }}"
+
   roles:
     - role: deploy_ssh_keys
       tags: ssh
     - role: ./roles/configure_container
+      tags: container
     - role: ./roles/configure_dotfiles
+      tags: dotfiles
     - role: ./roles/configure_git
+      tags: git
     - role: ./roles/configure_infra_management
+      tags: infra
     - role: ./roles/configure_nodejs
+      tags: nodejs
     - role: ./roles/configure_offline
+      tags: offline
     - role: ./roles/configure_python
+      tags: python
     - role: ./roles/configure_security
+      tags: security
     - role: ./roles/configure_shells
+      tags: shells
     - role: ./roles/configure_terminal
+      tags: terminal
     - role: ./roles/configure_tmux
+      tags: tmux

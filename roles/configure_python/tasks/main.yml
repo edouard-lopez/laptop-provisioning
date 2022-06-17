@@ -1,47 +1,43 @@
 ---
-- hosts: localhost
-  become: true
+- name: Install Python 3
+  apt:
+    name:
+      - python3
+    state: present
+  tags:
+    - python
+    - essential
 
-  tasks:
-    - name: Install Python 3
-      apt:
-        name:
-          - python3
-        state: latest
-      tags:
-        - python
-        - essential
+- name: Ubuntu Requirements For Installing Pip
+  apt:
+    name:
+      - python3-pip
+  tags:
+    - python
+    - dev
 
-    - name: Ubuntu Requirements For Installing Pip
-      apt:
-        name:
-          - python3-pip
-      tags:
-        - python
-        - dev
+- name: Install development modules
+  pip:
+    name:
+      - pipenv
+      - pipx
+    extra_args: --user
+  tags:
+    - python
+    - dev
 
-    - name: Install development modules
-      pip:
-        name:
-          - pipenv
-          - pipx
-        extra_args: --user
-      tags:
-        - python
-        - dev
+- name: Post-install to ensure $PATH is correctly configured
+  shell: >
+    python3 -m pipx ensurepath
+  tags:
+    - python
+    - dev
 
-    - name: Post-install to ensure $PATH is correctly configured
-      shell: >
-        python3 -m pipx ensurepath
-      tags:
-        - python
-        - dev
+- name: Download Poetry
+  get_url:
+    url: https://install.python-poetry.org
+    dest: /tmp/poetry-installer
+    mode: 755
 
-    - name: Download Poetry
-      get_url:
-        url: https://install.python-poetry.org
-        dest: /tmp/poetry-installer
-        mode: 755
-
-    - name: Install Poetry
-      shell: python3 /tmp/poetry-installer
+- name: Install Poetry
+  shell: python3 /tmp/poetry-installer

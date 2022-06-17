@@ -1,40 +1,34 @@
 ---
-- hosts: localhost
-  become: true
-  vars:
-    home: "{{ lookup('env', 'HOME') }}"
+- name: Install Tmux
+  apt:
+    name:
+      - tmux
+    state: present
+  tags:
+    - terminal
+    - essential
 
-  tasks:
-    - name: Install Tmux
-      apt:
-        name:
-          - tmux
-        state: latest
-      tags:
-        - terminal
-        - essential
+- name: Install requirements
+  apt:
+    name:
+      # - xcopy # doesn't exist anymore?
+      - xclip
+    state: present
+  tags:
+    - tmux
+    - terminal
 
-    - name: Install requirements
-      apt:
-        name:
-          # - xcopy # doesn't exist anymore?
-          - xclip
-        state: latest
-      tags:
-        - tmux
-        - terminal
+- name: Remove Default Tmux Configuration Directory
+  ansible.builtin.file:
+    path: '{{ home }}/.tmux'
+    state: absent
 
-    - name: Remove Default Tmux Configuration Directory
-      ansible.builtin.file:
-        path: "{{ home }}/.tmux"
-        state: absent
-
-    - name: Checkout Personal Tmux Configuration From Github
-      become: false
-      git:
-        repo: git@github.com:edouard-lopez/tmux-config.git
-        dest: "{{ home }}/.tmux"
-        depth: 1
-      tags:
-        - tmux
-        - configuration
+- name: Checkout Personal Tmux Configuration From Github
+  become: false
+  git:
+    repo: git@github.com:edouard-lopez/tmux-config.git
+    dest: '{{ home }}/.tmux'
+    depth: 1
+  tags:
+    - tmux
+    - configuration

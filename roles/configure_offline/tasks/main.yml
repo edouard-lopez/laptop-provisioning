@@ -1,22 +1,15 @@
 ---
-- hosts: localhost
-  become: true
-
+- name: Offline-related tools tasks
   tags:
-    - offline
+    - zeal
 
-  tasks:
-    - name: Offline-related tools tasks
-      tags:
-        - zeal
+  block:
+    - name: Add Zeal PPA source to repositories list
+      apt_repository:
+        repo: ppa:zeal-developers/ppa
+        state: present
 
-      block:
-        - name: Add Zeal PPA source to repositories list
-          apt_repository:
-            repo: ppa:zeal-developers/ppa
-            state: present
-
-        - name: Install Zeal
-          apt:
-            name: zeal
-            state: latest
+    - name: Install Zeal
+      apt:
+        name: zeal
+        state: present
