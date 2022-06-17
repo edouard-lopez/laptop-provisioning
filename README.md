@@ -21,6 +21,7 @@
       make configure-container
       make configure-dotfiles
       make configure-git
+      make configure-infra-management
       make configure-nodejs
       make configure-offline
       make configure-python
