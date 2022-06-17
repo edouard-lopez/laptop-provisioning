@@ -2,9 +2,11 @@
 - name: Fish playbook
   include_tasks: fish.yml
   tags:
+    - shell
     - fish
 
 - name: ZSH playbook
   include_tasks: zsh.yml
   tags:
+    - shell
     - zsh

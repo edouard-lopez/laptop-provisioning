@@ -1,2 +1,11 @@
 - name: Kubernetes tasks
   import_tasks: k8s.yml
+  tags:
+    - infra
+    - k8s
+
+- name: Terraform tasks
+  import_tasks: terraform.yml
+  tags:
+    - infra
+    - terraform

@@ -4,6 +4,7 @@
     name: k9s
     state: present
   tags:
+    - k8s
     - k9s
 
 - name: Install Helm (package manager for Kubernetes)
@@ -12,12 +13,14 @@
     dest: /tmp/helm.sh
     mode: 'u+x'
   tags:
+    - k8s
     - helm
 
 - name: Install Helm
   command: /tmp/helm.sh
   when: true
   tags:
+    - k8s
     - helm
 
 - name: Install Krew
@@ -37,6 +40,7 @@
   args:
     executable: /usr/bin/fish
   tags:
+    - k8s
     - kubectl
 
 - name: Add krew to $PATH
@@ -45,6 +49,7 @@
     search_string: krew
     line: set --append --export --global PATH $HOME/.krew/bin
   tags:
+    - k8s
     - kubectl
 
 - name: Install `kubectx` (context) and `kudens` (namespace)
@@ -57,6 +62,7 @@
     executable: /usr/bin/fish
   when: true
   tags:
+    - k8s
     - kubectl
 
 - name: Copy file with owner and permissions
@@ -68,5 +74,6 @@
     mode: '0600'
     force: false
   tags:
+    - k8s
     - kubectl
     - config
