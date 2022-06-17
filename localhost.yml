@@ -6,9 +6,14 @@
   roles:
     - role: deploy_ssh_keys
       tags: ssh
-
-  tasks:
-    - name: Configure Shell
-      include_role:
-        name: configure_shells
-      tags: shell
+    - role: ./roles/configure_container
+    - role: ./roles/configure_dotfiles
+    - role: ./roles/configure_git
+    - role: ./roles/configure_infra_management
+    - role: ./roles/configure_nodejs
+    - role: ./roles/configure_offline
+    - role: ./roles/configure_python
+    - role: ./roles/configure_security
+    - role: ./roles/configure_shells
+    - role: ./roles/configure_terminal
+    - role: ./roles/configure_tmux
