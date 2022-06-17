@@ -38,7 +38,7 @@ install-requirements:
 		--show-error \
 		--silent \
 		--location \
-	 https://install.python-poetry.org \
+	https://install.python-poetry.org \
 	| python3 -
 
 .PHONY: install-dependencies
@@ -72,8 +72,8 @@ AVAILABLE_ROLES = $(notdir $(wildcard $(ROLES_PATH)))
 TARGET_ROLES = $(subst _,-,$(AVAILABLE_ROLES)) 
 .PHONY: $(TARGET_ROLES)
 $(TARGET_ROLES):
-	ansible-playbook ./roles/$(subst -,_,$@)/tasks/main.yml \
-	--ask-become-pass
+	ansible-playbook localhost.yml --tags "$(subst configure-,,$@)"
+#	ansible-playbook ./roles/$(subst -,_,$@)/tasks/main.yml --ask-become-pass
 
 # Specific roles
 .PHONY: configure-shell-fish
