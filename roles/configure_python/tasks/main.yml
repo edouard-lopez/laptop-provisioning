@@ -27,8 +27,9 @@
     - dev
 
 - name: Post-install to ensure $PATH is correctly configured
-  shell: >
-    python3 -m pipx ensurepath
+  community.general.pipx:
+    name: ensurepath
+  when: true
   tags:
     - python
     - dev
@@ -40,4 +41,5 @@
     mode: 755
 
 - name: Install Poetry
-  shell: python3 /tmp/poetry-installer
+  script: /tmp/poetry-installer
+  when: true

@@ -24,6 +24,7 @@
       shell: >
         source /tmp/fisher_install
         && fisher install jorgebucaran/fisher
+      when: true
       args:
         executable: /usr/bin/fish
 
@@ -40,6 +41,7 @@
           - paysonwallach/fish-you-should-use
       loop: '{{ fish_plugins }}'
       shell: fisher install {{ item }}
+      when: true
       args:
         executable: /usr/bin/fish
       tags:
@@ -53,5 +55,6 @@
 
     - name: Install Tacklebox Fish Plugins
       shell: /tmp/tacklebox_install
+      when: true
       args:
         executable: /usr/bin/fish

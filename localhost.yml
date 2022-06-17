@@ -3,11 +3,6 @@
   name: Provision a machine with basics
   become: true
 
-  vars:
-    distro_name: 'Ubuntu'
-    distro_version: '20.04'
-    home: "{{ lookup('env', 'HOME') }}"
-
   roles:
     - role: deploy_ssh_keys
       tags: ssh

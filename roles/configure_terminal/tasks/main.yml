@@ -50,7 +50,7 @@
   command: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
   args:
     executable: /usr/bin/fish
-  when: asdf_python_plugin.stat.exists == False
+  when: not asdf_python_plugin.stat.exists
 
 # ASDF nodejs
 - name: check for asdf nodejs Plugin
@@ -62,4 +62,4 @@
   command: asdf plugin add nodejs
   args:
     executable: /usr/bin/fish
-  when: asdf_nodejs_plugin.stat.exists == False
+  when: not asdf_nodejs_plugin.stat.exists

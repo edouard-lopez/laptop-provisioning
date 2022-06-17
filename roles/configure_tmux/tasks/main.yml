@@ -28,6 +28,7 @@
   git:
     repo: git@github.com:edouard-lopez/tmux-config.git
     dest: '{{ home }}/.tmux'
+    version: master
     depth: 1
   tags:
     - tmux
