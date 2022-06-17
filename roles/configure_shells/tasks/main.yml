@@ -1,10 +1,10 @@
 ---
 - name: Fish playbook
-  import_playbook: fish.yml
+  include_tasks: fish.yml
   tags:
     - fish
 
 - name: ZSH playbook
-  import_playbook: zsh.yml
+  include_tasks: zsh.yml
   tags:
     - zsh

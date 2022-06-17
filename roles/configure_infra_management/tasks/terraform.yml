@@ -1,0 +1,30 @@
+- name: Install Terraform
+  apt:
+    name:
+      - gnupg
+      - software-properties-common
+      - curl
+  tags:
+    - terraform
+
+- name: Install the gpg key for nodejs LTS
+  apt_key:
+    url: 'https://apt.releases.hashicorp.com/gpg'
+    state: present
+  tags:
+    - terraform
+
+- name: Add Nodejs PPA source to repositories list
+  apt_repository:
+    repo: 'deb [arch=amd64] https://apt.releases.hashicorp.com {{ distribution_release }} main'
+    state: present
+    update_cache: true
+  tags:
+    - terraform
+
+- name: Install the Terraform
+  apt:
+    name: terraform
+    state: present
+  tags:
+    - terraform

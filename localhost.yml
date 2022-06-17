@@ -13,7 +13,7 @@
     - role: ./roles/configure_git
       tags: git
     - role: ./roles/configure_infra_management
-      tags: infra
+      tags: infra-management
     - role: ./roles/configure_nodejs
       tags: nodejs
     - role: ./roles/configure_offline
