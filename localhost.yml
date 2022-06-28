@@ -3,6 +3,9 @@
   name: Provision a machine with basics
   become: true
 
+  vars_files:
+    - .secret.yml
+
   roles:
     - role: deploy_ssh_keys
       tags: ssh

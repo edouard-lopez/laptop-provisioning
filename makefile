@@ -70,6 +70,12 @@ test-locally:
 		-vv \
 	./localhost.yml
 
+
+configure:
+	ansible-playbook localhost.yml \
+		--vault-password-file=.secret.txt \
+		--tags "${TAGS}"
+
 # Basic roles		
 ROLES_PATH := ./roles/configure_*
 AVAILABLE_ROLES = $(notdir $(wildcard $(ROLES_PATH)))

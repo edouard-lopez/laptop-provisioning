@@ -15,27 +15,31 @@
       make check-playbook
       ```
 
-1. :warning: Run the playbook
+1. Create an **insecure file** to hold your vault password:
+
+      ```sh
+      touch .secret.txt && chmod u=rw,go= .secret.txt
+      $EDITOR .secret.txt # add your vault password
+      ```
+
+2. Create a vault to hold your `sudo` password
+
+      ```sh
+      ansible-vault encrypt_string \
+            --vault-password-file=.secret.txt \
+            --stdin-name 'ansible_sudo_pass' \
+            --output .secret.yml
+      ```
+
+3. Run the playbook
 
       ```sh
       poetry shell
-      ansible-playbook localhost.yml --tags "login"  # task-level tag
+      # specific tag(s)
+      make configure TAGS="foo,bar"
 
       # Top-level tags for roles
-      ansible-playbook localhost.yml --tags "code-ide"
-      ansible-playbook localhost.yml --tags "container"
-      ansible-playbook localhost.yml --tags "dotfiles"
-      ansible-playbook localhost.yml --tags "git"
-      ansible-playbook localhost.yml --tags "infra"
-      ansible-playbook localhost.yml --tags "nodejs"
-      ansible-playbook localhost.yml --tags "offline"
-      ansible-playbook localhost.yml --tags "python"
-      ansible-playbook localhost.yml --tags "security"
-      ansible-playbook localhost.yml --tags "shell-fish"
-      ansible-playbook localhost.yml --tags "shell-zsh"
-      ansible-playbook localhost.yml --tags "shells"
-      ansible-playbook localhost.yml --tags "terminal"
-      ansible-playbook localhost.yml --tags "tmux"
+      make configure-<TAB>
       ```
 
 ## Install
