@@ -18,19 +18,24 @@
 1. :warning: Run the playbook
 
       ```sh
-      make configure-container
-      make configure-dotfiles
-      make configure-git
-      make configure-infra-management
-      make configure-nodejs
-      make configure-offline
-      make configure-python
-      make configure-security
-      make configure-shell-fish
-      make configure-shell-zsh
-      make configure-shells
-      make configure-terminal
-      make configure-tmux
+      poetry shell
+      ansible-playbook localhost.yml --tags "login"  # task-level tag
+
+      # Top-level tags for roles
+      ansible-playbook localhost.yml --tags "code-ide"
+      ansible-playbook localhost.yml --tags "container"
+      ansible-playbook localhost.yml --tags "dotfiles"
+      ansible-playbook localhost.yml --tags "git"
+      ansible-playbook localhost.yml --tags "infra"
+      ansible-playbook localhost.yml --tags "nodejs"
+      ansible-playbook localhost.yml --tags "offline"
+      ansible-playbook localhost.yml --tags "python"
+      ansible-playbook localhost.yml --tags "security"
+      ansible-playbook localhost.yml --tags "shell-fish"
+      ansible-playbook localhost.yml --tags "shell-zsh"
+      ansible-playbook localhost.yml --tags "shells"
+      ansible-playbook localhost.yml --tags "terminal"
+      ansible-playbook localhost.yml --tags "tmux"
       ```
 
 ## Install
