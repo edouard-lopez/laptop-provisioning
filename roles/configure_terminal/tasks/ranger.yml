@@ -3,11 +3,15 @@
   pip:
     name: ranger-fm
     extra_args: --user
+  tags:
+    - ranger
 
 - name: Generate Ranger config
-  ansible.builtin.command: ranger --copy-config=scope
+  ansible.builtin.command: '{{ home }}/.local/bin/ranger --copy-config=scope'
   args:
     creates: ~/.config/ranger/scope.sh
+  tags:
+    - ranger
 
 - name: Install Dependencies for Tool to Preview in Terminal
   become: true
@@ -19,11 +23,15 @@
       - python3-xlib
       - python3-pil
       - python3-attr
+  tags:
+    - ranger
 
 - name: Install Tool to Preview in Terminal
   pip:
     name: ueberzug
     extra_args: --user
+  tags:
+    - ranger
 
 - name: Add config for Preview in Terminal Tool
   blockinfile:
@@ -33,3 +41,5 @@
       set preview_images_method ueberzug
     create: true
     mode: u,g=rw,o=r
+  tags:
+    - ranger

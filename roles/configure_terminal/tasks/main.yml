@@ -1,6 +1,8 @@
 ---
 - name: Ranger File Manager playbook
   include_tasks: ranger.yml
+  tags:
+    - ranger
 
 - name: Install Monitoring tools
   become: true
