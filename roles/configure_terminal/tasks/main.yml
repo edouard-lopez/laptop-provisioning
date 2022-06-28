@@ -65,3 +65,13 @@
   args:
     executable: /usr/bin/fish
   when: not asdf_nodejs_plugin.stat.exists
+
+- name: Install Bat
+  become: true
+  apt:
+    name:
+      - bat
+    state: present
+  tags:
+    - terminal
+    - essential
