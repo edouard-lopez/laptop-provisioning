@@ -32,7 +32,7 @@ deploy-ssh-key:
 install-requirements: 
 	sudo apt install \
 		--yes \
-		python3.9 \
+		python3.10 \
 		python3-venv
 	curl \
 		--show-error \
