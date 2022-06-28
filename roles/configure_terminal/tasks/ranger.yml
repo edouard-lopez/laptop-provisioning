@@ -1,45 +1,40 @@
 ---
-- name: Install Ranger Terminal File Manager
-  pip:
-    name: ranger-fm
-    extra_args: --user
+- name: Fish tasks
   tags:
-    - ranger
+    - asdf
 
-- name: Generate Ranger config
-  ansible.builtin.command: '{{ home }}/.local/bin/ranger --copy-config=scope'
-  args:
-    creates: ~/.config/ranger/scope.sh
-  tags:
-    - ranger
+  block:
+    - name: Install Ranger Terminal File Manager
+      pip:
+        name: ranger-fm
+        extra_args: --user
 
-- name: Install Dependencies for Tool to Preview in Terminal
-  become: true
-  apt:
-    pkg:
-      - libx11-dev
-      - libxtst-dev
-      - python3-docopt
-      - python3-xlib
-      - python3-pil
-      - python3-attr
-  tags:
-    - ranger
+    - name: Generate Ranger config
+      ansible.builtin.command: '{{ home }}/.local/bin/ranger --copy-config=scope'
+      args:
+        creates: ~/.config/ranger/scope.sh
 
-- name: Install Tool to Preview in Terminal
-  pip:
-    name: ueberzug
-    extra_args: --user
-  tags:
-    - ranger
+    - name: Install Dependencies for Tool to Preview in Terminal
+      become: true
+      apt:
+        pkg:
+          - libx11-dev
+          - libxtst-dev
+          - python3-docopt
+          - python3-xlib
+          - python3-pil
+          - python3-attr
 
-- name: Add config for Preview in Terminal Tool
-  blockinfile:
-    path: '{{ home }}/.config/ranger/rc.conf'
-    block: |
-      set preview_images true
-      set preview_images_method ueberzug
-    create: true
-    mode: u,g=rw,o=r
-  tags:
-    - ranger
+    - name: Install Tool to Preview in Terminal
+      pip:
+        name: ueberzug
+        extra_args: --user
+
+    - name: Add config for Preview in Terminal Tool
+      blockinfile:
+        path: '{{ home }}/.config/ranger/rc.conf'
+        block: |
+          set preview_images true
+          set preview_images_method ueberzug
+        create: true
+        mode: u,g=rw,o=r
