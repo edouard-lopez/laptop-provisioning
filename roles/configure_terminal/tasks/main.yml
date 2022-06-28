@@ -75,3 +75,11 @@
   tags:
     - terminal
     - essential
+    - name: Install Bat
+      become: true
+      apt:
+        name:
+          - bat
+        state: present
+      tags:
+        - bat
