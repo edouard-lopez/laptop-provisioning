@@ -7,3 +7,36 @@
   tags:
     - security
     - 2FA
+    - auth
+
+- name: Install Howdy
+  block:
+    - name: Add Howdy PPA source to repositories list
+      apt_repository:
+        repo: 'ppa:boltgolt/howdy'
+        state: present
+        update_cache: true
+
+    - name: Install development modules
+      pip:
+        name:
+          - dlib
+
+    - name: Install howdy dependencies (APT)
+      apt:
+        name:
+          - python3-numpy
+          - python3-opencv
+          - libopencv-dev
+        state: present
+
+    - name: Install howdy
+      apt:
+        name:
+          - howdy
+        state: present
+
+  tags:
+    - login
+    - auth
+    - security
