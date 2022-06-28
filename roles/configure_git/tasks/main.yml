@@ -34,3 +34,9 @@
     state: present
   tags:
     - github-cli
+
+- name: Instal Delta A syntax-highlighting pager for git, diff, and grep output
+  include_tasks: delta.yml
+  tags:
+    - git
+    - delta
