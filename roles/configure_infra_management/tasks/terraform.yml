@@ -14,7 +14,7 @@
   tags:
     - terraform
 
-- name: Add Nodejs PPA source to repositories list
+- name: Add Terraform PPA source to repositories list
   apt_repository:
     repo: 'deb [arch=amd64] https://apt.releases.hashicorp.com {{ distribution_release }} main'
     state: present
