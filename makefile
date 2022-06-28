@@ -30,6 +30,10 @@ deploy-ssh-key:
 
 .PHONY: install-requirements
 install-requirements: 
+	sudo  pip install \
+		--upgrade \
+		--user\
+		ansible
 	sudo apt install \
 		--yes \
 		python3.10 \
