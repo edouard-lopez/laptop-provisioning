@@ -1,15 +1,10 @@
 ---
 - name: Offline-related tools tasks
   tags:
-    - zeal
+    - offline
 
   block:
-    - name: Add Zeal PPA source to repositories list
-      apt_repository:
-        repo: ppa:zeal-developers/ppa
-        state: present
-
-    - name: Install Zeal
-      apt:
-        name: zeal
-        state: present
+    - name: Using DevDocs
+      shell: firefox -new-window https://devdocs.io/ &
+      tags:
+        - devdocs
