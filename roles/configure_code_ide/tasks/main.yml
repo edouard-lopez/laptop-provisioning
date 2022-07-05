@@ -1,0 +1,15 @@
+---
+- name: Install Intellij Ultimate
+  community.general.snap:
+    name: intellij-idea-ultimate
+    channel: classic
+    state: present
+  tags:
+    - java
+    - ide
+
+- name: Vim tasks
+  import_tasks: vim.yml
+  tags:
+    - ide
+    - vim

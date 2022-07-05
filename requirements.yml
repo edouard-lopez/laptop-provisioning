@@ -4,3 +4,6 @@ collections:
   - name: community.general
     version: 5.2.0
 
+roles:
+  - name: gantsign.intellij-plugins
+    version: 3.1.1

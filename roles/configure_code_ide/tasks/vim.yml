@@ -1,0 +1,32 @@
+---
+- name: Instal Delta A syntax-highlighting pager for git, diff, and grep output
+  tags:
+    - ide
+    - vim
+
+  block:
+    - name: Install Vim
+      apt:
+        name:
+          - vim
+        state: present
+
+    - name: Install Vundle (Plugin Manager)
+      become: false # prevent git: fatal: unsafe repository
+      git:
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: '{{ home }}/.vim/bundle/Vundle.vim'
+        depth: 1
+        version: master
+
+    - name: Install Vim Plugins
+      command: vim +PluginInstall +qall
+
+    - name: Configure Vim to use Base16 colors
+      blockinfile:
+        path: '{{ home }}/.vimrc'
+        backup: true
+        marker: '" {mark} Added by ansbible `vim` task'
+        content: |
+          let base16colorspace=256  " Access colors present in 256 colorspace
+          colorscheme base16-tomorrow
