@@ -30,7 +30,7 @@ deploy-ssh-key:
 
 .PHONY: install-requirements
 install-requirements: 
-	sudo  pip install \
+	pip install \
 		--upgrade \
 		--user\
 		ansible
