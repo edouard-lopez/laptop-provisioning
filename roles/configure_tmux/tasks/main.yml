@@ -1,35 +1,50 @@
 ---
-- name: Install Tmux
-  apt:
-    name:
-      - tmux
-    state: present
-  tags:
-    - terminal
-    - essential
-
-- name: Install requirements
-  apt:
-    name:
-      # - xcopy # doesn't exist anymore?
-      - xclip
-    state: present
+- name: Instal Tmux and related
   tags:
     - tmux
     - terminal
 
-- name: Remove Default Tmux Configuration Directory
-  ansible.builtin.file:
-    path: '{{ home }}/.tmux'
-    state: absent
+  block:
+    - name: Install Tmux
+      apt:
+        name:
+          - tmux
+        state: present
+      tags:
+        - essential
 
-- name: Checkout Personal Tmux Configuration From Github
-  become: false
-  git:
-    repo: git@github.com:edouard-lopez/tmux-config.git
-    dest: '{{ home }}/.tmux'
-    version: master
-    depth: 1
-  tags:
-    - tmux
-    - configuration
+    - name: Install requirements
+      apt:
+        name:
+          # - xcopy # doesn't exist anymore?
+          - xclip
+        state: present
+
+    - name: Remove Default Tmux Configuration Directory
+      ansible.builtin.file:
+        path: '{{ home }}/.tmux'
+        state: absent
+
+    - name: Checkout Personal Tmux Configuration From Github
+      become: false
+      git:
+        repo: git@github.com:edouard-lopez/tmux-config.git
+        dest: '{{ home }}/.tmux'
+        version: master
+        depth: 1
+      tags:
+        - configuration
+
+    - name: Install acpi for tmux-battery plugin
+      apt:
+        name:
+          - acpi
+        state: present
+
+    - name: Install package for tmux-network plugin
+      apt:
+        name:
+          - gawk
+          - net-tools
+          - coreutils
+        state: present

@@ -1,0 +1,16 @@
+---
+- name: Add ASDF to Manage multiple runtime versions https://asdf-vm.com/
+  tags:
+    - theme
+    - shell
+
+  block:
+    - name: Install Base16 color
+      become: false # prevent git: fatal: unsafe repository
+      git:
+        repo: https://github.com/base16-project/base16-shell.git
+        dest: '{{ home }}/.config/base16-shell'
+        depth: 1
+        version: master
+    tags:
+      - fish
