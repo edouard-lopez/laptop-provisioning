@@ -33,3 +33,5 @@
       tags: terminal
     - role: ./roles/configure_tmux
       tags: tmux
+    - role: ./roles/manage_machine
+      tags: machine

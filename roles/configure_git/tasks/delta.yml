@@ -13,7 +13,7 @@
       blockinfile:
         path: '{{ home }}/.gitconfig'
         backup: true
-        marker: '# {mark} Added by ansbible `delta` task '
+        marker: '# {mark} Added by ansbible `delta` task'
         content: |
           [core]
               pager = delta
