@@ -33,7 +33,8 @@ install-requirements:
 	pip install \
 		--upgrade \
 		--user\
-		ansible
+		ansible \
+		ansible-lint
 	sudo apt install \
 		--yes \
 		python3.10 \
