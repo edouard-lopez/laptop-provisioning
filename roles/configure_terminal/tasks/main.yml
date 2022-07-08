@@ -51,3 +51,12 @@
       tags:
         - less
         - plugins
+
+    - name: Install Fdfind
+      become: true
+      apt:
+        name:
+          - fd-find
+        state: present
+      tags:
+        - find
