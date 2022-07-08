@@ -1,7 +1,29 @@
 ---
-- name: Install Zsh Shell
-  apt:
-    name: zsh
-    state: present
+- name: Instal Delta A syntax-highlighting pager for git, diff, and grep output
   tags:
+    - shell
     - zsh
+
+  block:
+    - name: Install Zsh Shell
+      apt:
+        name: zsh
+        state: present
+
+    - name: Install Pure for Zsh
+      become: false # prevent git: fatal: unsafe repository
+      git:
+        repo: https://github.com/sindresorhus/pure.git
+        dest: '{{ home }}/.zsh/pure'
+        depth: 1
+        version: main
+
+    - name: Install Pure for zsh
+      blockinfile:
+        path: '{{ home }}/.zshrc'
+        backup: true
+        marker: '# {mark} Added by ansbible `zsh` task'
+        content: |
+          fpath+=($HOME/.zsh/pure)
+          autoload -U promptinit; promptinit
+          prompt pure
