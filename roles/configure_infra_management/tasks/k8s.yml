@@ -69,8 +69,8 @@
   ansible.builtin.copy:
     src: 'files/kube-config'
     dest: '{{ home }}/.kube/config'
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
+    owner: '{{ user }}'
+    group: '{{ user }}'
     mode: '0600'
     force: false
   tags:

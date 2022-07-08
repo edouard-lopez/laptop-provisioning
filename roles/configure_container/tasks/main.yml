@@ -54,8 +54,8 @@
   file:
     src: /usr/bin/podman
     dest: '{{ home }}/.local/bin/docker'
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
+    owner: '{{ user }}'
+    group: '{{ user }}'
     state: link
   tags:
     - shell

@@ -1,4 +1,5 @@
 distro_name: 'Ubuntu'
 distro_version: '20.04'
 home: "{{ lookup('env', 'HOME') }}"
+user: "{{ lookup('env', 'USER') }}"
 distribution_release: 'focal'
