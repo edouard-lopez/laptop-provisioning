@@ -1,0 +1,19 @@
+---
+- name: Browser tasks
+  tags:
+    - browser
+
+  block:
+    - name: Install Firefox
+      snap:
+        name: firefox
+        state: present
+        channel: classic
+      tags:
+        - snap
+
+    - name: Install dbus-user-session to Fix Snap packages launch # /user.slice/user-1000.slice/session-21.scope is not a snap cgroup
+      apt:
+        name:
+          - dbus-user-session
+        state: present

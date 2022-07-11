@@ -9,6 +9,8 @@
   roles:
     - role: deploy_ssh_keys
       tags: ssh
+    - role: ./roles/configure_browser
+      tags: browser
     - role: ./roles/configure_code_ide
       tags: ide
     - role: ./roles/configure_container
