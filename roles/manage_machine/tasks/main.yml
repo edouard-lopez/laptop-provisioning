@@ -1,10 +1,19 @@
 ---
-- name: Update all packages to their latest version
-  apt:
-    name: '*'
-    state: latest
-    update_cache: yes
+- name: Machine Maintanance tasks
   tags:
     - machine
     - update
     - upgrade
+
+  block:
+    - name: Update all APT packages to their latest version
+      apt:
+        name: '*'
+        state: present
+        update_cache: yes
+      tags:
+        - apt
+      notify:
+        - apt-autoclean
+        - apt-autoremove
+      # changed_when: true # force handler triggering, see https://stackoverflow.com/a/43788016
