@@ -1,0 +1,10 @@
+---
+- name: AWS (Amazon) tasks
+  tags:
+    - aws
+
+  block:
+    - name: Install aws-cli-v2
+      include_role:
+        name: deekayen.awscli2
+      tags: aws
