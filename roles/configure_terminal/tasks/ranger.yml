@@ -5,6 +5,7 @@
 
   block:
     - name: Install Ranger Terminal File Manager
+      become: false
       pip:
         name: ranger-fm
         extra_args: --user
@@ -26,6 +27,7 @@
           - python3-attr
 
     - name: Install Tool to Preview in Terminal
+      become: false
       pip:
         name: ueberzug
         extra_args: --user

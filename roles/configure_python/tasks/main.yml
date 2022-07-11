@@ -17,6 +17,7 @@
     - dev
 
 - name: Install development modules
+  become: false
   pip:
     name:
       - pipenv
