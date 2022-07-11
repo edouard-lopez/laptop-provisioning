@@ -17,3 +17,9 @@
         - apt-autoclean
         - apt-autoremove
       # changed_when: true # force handler triggering, see https://stackoverflow.com/a/43788016
+
+    - name: Update all SNAP packages to their latest version
+      command: snap refresh
+      when: true
+      tags:
+        - snap
