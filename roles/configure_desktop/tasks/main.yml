@@ -1,0 +1,13 @@
+---
+- name: Desktop tasks
+  tags:
+    - desktop
+
+  block:
+    - name: Install Shutter (screenshot)
+      apt:
+        name:
+          - shutter
+        state: present
+      tags:
+        - shutter

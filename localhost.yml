@@ -15,6 +15,8 @@
       tags: container
     - role: ./roles/configure_dotfiles
       tags: dotfiles
+    - role: ./roles/configure_desktop
+      tags: desktop
     - role: ./roles/configure_git
       tags: git
     - role: ./roles/configure_infra_management
