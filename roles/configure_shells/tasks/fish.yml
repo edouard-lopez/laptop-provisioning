@@ -39,6 +39,7 @@
           - rafaelrinaldi/pure
           - jorgebucaran/nvm.fish
           - paysonwallach/fish-you-should-use
+          - danhper/fish-ssh-agent
       loop: '{{ fish_plugins }}'
       shell: fisher install {{ item }}
       when: true
