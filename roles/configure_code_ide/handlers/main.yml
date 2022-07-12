@@ -1,0 +1,14 @@
+---
+- name: Install Vim Plugins
+  command: vim +'PlugInstall --sync' +qa
+  listen: install-vim-plugins
+
+- name: Configure Vim to use Base16 colors
+  blockinfile:
+    path: '{{ home }}/.vimrc'
+    backup: true
+    marker: '" {mark} Added by ansbible `vim` task'
+    content: |
+      let base16colorspace=256  " Access colors present in 256 colorspace
+      colorscheme base16-tomorrow
+  listen: vim-configure-base16-theme
