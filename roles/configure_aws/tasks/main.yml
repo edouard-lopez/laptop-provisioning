@@ -7,4 +7,34 @@
     - name: Install aws-cli-v2
       include_role:
         name: deekayen.awscli2
-      tags: aws
+      tags:
+        - cli
+
+    - name: Check if SAML2AWS exists
+      become: false
+      command: saml2aws --version
+      # '{{ home }}/.local/bin/'
+      register: result
+      failed_when: result.rc != 0 and result.rc != 127
+      tags:
+        - saml2aws
+
+    - name: Get SAML2AWS latest version number
+      shell: >
+        curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest \
+          | grep 'tag_name' \
+          | cut -d'v' -f2 \
+          | cut -d'"' -f1
+      register: result
+      changed_when: true
+      tags:
+        - saml2aws
+
+    - name: Get SAML2AWS latest version number
+      unarchive:
+        src: 'https://github.com/Versent/saml2aws/releases/download/v{{ result.stdout }}/saml2aws_{{ result.stdout }}_linux_amd64.tar.gz'
+        dest: '{{ home }}/.local/bin/'
+        mode: u+x
+        remote_src: yes
+      tags:
+        - saml2aws
