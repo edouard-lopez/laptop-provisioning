@@ -60,3 +60,12 @@
         state: present
       tags:
         - find
+
+    - name: Install just (command runner) https://github.com/casey/just
+      snap:
+        name: just
+        state: present
+        channel: edge
+        classic: true
+      tags:
+        - just
