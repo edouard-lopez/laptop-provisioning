@@ -69,3 +69,12 @@
         classic: true
       tags:
         - just
+
+    - name: Install direnv
+      become: true
+      apt:
+        name:
+          - direnv
+        state: present
+      tags:
+        - direnv
