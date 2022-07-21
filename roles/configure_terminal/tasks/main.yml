@@ -78,3 +78,13 @@
         state: present
       tags:
         - direnv
+
+    - name: Install ripgrep
+      become: true
+      apt:
+        name:
+          - ripgrep
+        state: present
+      tags:
+        - ripgrep
+        - find
