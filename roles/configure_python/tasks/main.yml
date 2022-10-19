@@ -24,18 +24,23 @@
       - pipx
     extra_args: --user
   tags:
+    - pipx
     - python
     - dev
 
 - name: Post-install to ensure $PATH is correctly configured
+  become: false
   community.general.pipx:
     name: ensurepath
+    state: present
   when: true
   tags:
+    - pipx
     - python
     - dev
 
 - name: Download Poetry
+  become: false
   get_url:
     url: https://install.python-poetry.org
     dest: /tmp/poetry-installer
