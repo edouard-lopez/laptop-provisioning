@@ -8,8 +8,7 @@
   block:
     - name: Update all APT packages to their latest version
       apt:
-        name: '*'
-        state: present
+        upgrade: yes
         update_cache: yes
       tags:
         - apt
