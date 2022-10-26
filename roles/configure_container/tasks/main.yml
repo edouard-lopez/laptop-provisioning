@@ -22,24 +22,21 @@
   tags:
     - container
 
-- name: Install Compose Switch
-  get_url:
-    url: https://github.com/docker/compose-switch/releases/download/v1.0.4/docker-compose-linux-amd64
-    dest: /usr/local/bin/compose-switch
-    mode: '+x'
+- name: Install (Podman) Docker compose
+  become: false
+  pip:
+    name:
+      - podman-compose
+    extra_args: --user
   tags:
-    - docker-compose
+    - compose
 
-- name: Define an alternatives group for the docker-compose command
-  shell: >
-    update-alternatives \
-      --install \
-        /usr/local/bin/docker-compose \
-        docker-compose \
-        /usr/local/bin/compose-switch \
-        99
-  tags:
-    - docker-compose
+# - name: Install Docker compose package
+#   apt:
+#     name: docker-compose-plugin
+#   tags:
+#     - docker
+#     - compose
 
 - name: Install linter (hadolint)
   get_url:
