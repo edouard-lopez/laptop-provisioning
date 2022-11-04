@@ -1,5 +1,7 @@
 distro_name: 'Ubuntu'
-distro_version: '20.04'
+distro_version: '22.10'
+distro_codename: 'kinetic'
+
 home: "{{ lookup('env', 'HOME') }}"
 user: "{{ lookup('env', 'USER') }}"
 distribution_release: 'focal'
