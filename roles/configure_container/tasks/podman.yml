@@ -1,0 +1,33 @@
+---
+- name: Podman tasks
+  tags:
+    - podman
+    - container
+
+  block:
+    - name: Install the Docker tooling alternatives
+      apt:
+        name:
+          - buildah
+          - skopeo
+          - podman
+        state: latest
+
+    - name: Install (Podman) Docker compose
+      become: false
+      pip:
+        name:
+          - podman-compose
+        extra_args: --user
+      tags:
+        - compose
+        
+    # - name: Symlink `docker` to `podman`
+    #   file:
+    #     src: /usr/bin/podman
+    #     dest: '{{ home }}/.local/bin/docker'
+    #     owner: '{{ user }}'
+    #     group: '{{ user }}'
+    #     state: link
+    #   tags:
+    #     - podman

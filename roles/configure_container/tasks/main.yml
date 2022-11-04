@@ -1,69 +1,21 @@
 ---
-- name: Install and configure container related package
+
+- name: Docker playbook
+  include_tasks: docker.yml
   tags:
     - container
+    - docker
 
-  block:
-    - name: Install the gpg key for Buildah
-      apt_key:
-        url: 'https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ distro_name }}_{{ distro_version }}/Release.key'
-        state: present
+- name: Docker compose playbook
+  include_tasks: docker-compose.yml
+  tags:
+    - container
+    - compose
 
-    - name: Add Buildah PPA source to repositories list
-      apt_repository:
-        repo: 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ distro_name }}_{{ distro_version }}/ /'
-        state: present
-        update_cache: true
+- name: Podman playbook
+  include_tasks: podman.yml
+  tags:
+    - container
+    - podman
 
-    - name: Install the Docker tooling alternatives
-      apt:
-        name:
-          - buildah
-          - skopeo
-          - podman
-        state: latest
 
-    - name: Install (Podman) Docker compose
-      become: false
-      pip:
-        name:
-          - podman-compose
-        extra_args: --user
-      tags:
-        - compose
-
-    - name: Install linter (hadolint)
-      get_url:
-        url: https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
-        dest: /usr/local/bin/hadolint
-        mode: '+x'
-      tags:
-        - linter
-
-    - name: Symlink `docker` to `podman`
-      file:
-        src: /usr/bin/podman
-        dest: '{{ home }}/.local/bin/docker'
-        owner: '{{ user }}'
-        group: '{{ user }}'
-        state: link
-      tags:
-        - shell
-        - fish
-        - bash
-
-    - name: Install Docker test with dgoss
-      get_url:
-        url: https://raw.githubusercontent.com/aelsabbahy/goss/master/extras/dgoss/dgoss
-        dest: /usr/local/bin/dgoss
-        mode: '+rx'
-      tags:
-        - test
-
-    - name: Install goss
-      get_url:
-        url: https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-amd64
-        dest: /usr/local/bin/goss
-        mode: '+rx'
-      tags:
-        - test

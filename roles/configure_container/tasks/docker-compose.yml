@@ -1,0 +1,33 @@
+---
+- name: Docker compose tasks
+  tags:
+    - compose
+    - container
+
+  vars:
+    docker_plugins_directory: '{{ home }}/.docker/cli-plugins'
+
+  block:
+    - name: Install Docker packages 
+      apt:
+        name:
+          - docker-compose-plugin
+
+    - name: Create Docker cli-plugin directory
+      become: false
+      file:
+        path: '{{ docker_plugins_directory }}'
+        mode: u=rwx,g=rx,o=rx
+      tags:
+        - fix-compose-version
+
+    - name: Install the Compose plugin Manually
+      become: false
+      get_url:
+        url: 'https://github.com/docker/compose/releases/download/{{ docker_compose_plugin_version }}/docker-compose-linux-x86_64'
+        dest: '{{ docker_plugins_directory }}/docker-compose'
+        mode: '+rx'
+      vars:
+        docker_compose_plugin_version: v2.12.2
+      tags:
+        - fix-compose-version
