@@ -4,4 +4,3 @@ distro_codename: 'kinetic'
 
 home: "{{ lookup('env', 'HOME') }}"
 user: "{{ lookup('env', 'USER') }}"
-distribution_release: 'focal'

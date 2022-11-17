@@ -16,7 +16,7 @@
 
 - name: Add Terraform PPA source to repositories list
   apt_repository:
-    repo: 'deb [arch=amd64] https://apt.releases.hashicorp.com {{ distribution_release }} main'
+    repo: 'deb [arch=amd64] https://apt.releases.hashicorp.com {{ distro_codename }} main'
     state: present
     update_cache: true
   tags:
