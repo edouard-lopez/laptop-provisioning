@@ -5,6 +5,12 @@
     - essential
 
   block:
+    - name: Syntax Highlighting for Less pager tasks
+      include_tasks: highlight.yml
+      tags:
+        - highlight
+        - less
+
     - name: Ranger File Manager tasks
       include_tasks: ranger.yml
       tags:
@@ -32,25 +38,6 @@
         state: present
       tags:
         - bat
-
-    - name: Syntax Highlighting for Less pager
-      become: true
-      apt:
-        name:
-          - libsource-highlight-common
-          - source-highlight
-        state: present
-      tags:
-        - less
-
-    - name: Install decors/fish-source-highlight
-      shell: fisher install decors/fish-source-highlight
-      when: true
-      args:
-        executable: /usr/bin/fish
-      tags:
-        - less
-        - plugins
 
     - name: Install Fdfind
       become: true

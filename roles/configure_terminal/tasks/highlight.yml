@@ -1,0 +1,44 @@
+---
+- name: Syntax Highlighting for Less pager tasks
+  tags:
+    - terminal
+    - essential
+    - less
+  vars:
+    highlight_version: '4.4' # MUST be a string for comparison
+    src_destination: /tmp
+
+  block:
+    - name: Install highlight dependencies
+      apt:
+        name: 
+          - luajit
+          - liblua5.4-dev
+          - libboost-dev
+        state: present
+
+    - name: Get Highlight version
+      when: true
+      shell: >
+        highlight --version \
+        | awk '/highlight version/{ print $3}' \
+        || true
+      register: installed_version
+
+    - name: Download saalen/highlight source (Source code to formatted text converter)
+      become: false
+      when:  installed_version.stdout is version(highlight_version, '<')
+      unarchive:
+        src: 'https://gitlab.com/saalen/highlight/-/archive/v{{ highlight_version }}/highlight-v{{ highlight_version }}.tar.gz'
+        dest: '{{ src_destination }}'
+        mode: u+x
+        remote_src: yes
+
+    - name: Install saalen highlight from source
+      become: true
+      when:  installed_version.stdout is version(highlight_version, '<')
+      shell: >
+        cd {{ src_destination  }}/highlight-v{{ highlight_version }}
+        make \
+        && make cli \
+        && make install
