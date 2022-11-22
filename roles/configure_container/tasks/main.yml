@@ -18,4 +18,12 @@
     - container
     - podman
 
-
+- name: Install DevContainer cli
+  become: false
+  yarn:
+    name: '@devcontainers/cli'
+    global: true
+    state: present
+  tags:
+    - container
+    - devcontainers
