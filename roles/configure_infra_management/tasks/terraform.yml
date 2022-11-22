@@ -16,7 +16,7 @@
 
 - name: Add Terraform PPA source to repositories list
   apt_repository:
-    repo: 'deb [arch=amd64] https://apt.releases.hashicorp.com {{ distro_codename }} main'
+    repo: 'deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ distro_codename }} main'
     state: present
     update_cache: true
   tags:
