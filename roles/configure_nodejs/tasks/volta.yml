@@ -1,0 +1,38 @@
+---
+# With Volta, you can select a Node engine once and then stop worrying about it.
+# You can switch between projects and stop having to manually switch between Nodes.
+- name: "'volta' tasks (https://volta.sh/)"
+  tags:
+    - volta
+
+  become: false
+  block:
+    - name: Download 'volta'
+      become: true
+      get_url:
+        url: https://get.volta.sh
+        dest: /tmp/volta_install
+        mode: '+x'
+        owner: '{{ user }}'
+        group: '{{ user }}'
+
+    - name: Install 'volta'
+      shell: >
+        bash /tmp/volta_install
+      when: true
+
+    - name: Declate 'VOLTA_HOME'
+      lineinfile:
+        path: '{{ home }}/.config/fish/config.fish'
+        search_string: VOLTA_HOME $HOME
+        line: set --global --export VOLTA_HOME $HOME/.volta
+
+    - name: Add 'volta' to $PATH
+      lineinfile:
+        path: '{{ home }}/.config/fish/config.fish'
+        search_string: VOLTA_HOME/bin
+        line: set --append --export --global PATH $VOLTA_HOME/bin
+
+    - name: Generate Completion
+      shell: volta completions fish > $HOME/.config/fish/completions/volta.fish
+      when: true
