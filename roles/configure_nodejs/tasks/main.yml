@@ -47,3 +47,9 @@
   tags:
     - node
     - volta
+
+- name: PNPM playbook
+  include_tasks: pnpm.yml
+  tags:
+    - node
+    - pnpm

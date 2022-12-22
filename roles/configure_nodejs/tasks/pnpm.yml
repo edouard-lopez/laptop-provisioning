@@ -1,0 +1,37 @@
+---
+# WFast, disk space efficient package manager
+- name: "'pnpm' tasks (https://pnpm.sh/)"
+  tags:
+    - pnpm
+
+  become: false
+  block:
+    - name: Download 'pnpm'
+      become: true
+      get_url:
+        url: https://get.pnpm.io/install.sh
+        dest: /tmp/pnpm_install
+        mode: '+x'
+        owner: '{{ user }}'
+        group: '{{ user }}'
+
+    - name: Install 'pnpm'
+      shell: >
+        sh /tmp/pnpm_install
+      when: true
+
+    - name: Declate 'PNPM_HOME'
+      lineinfile:
+        path: '{{ home }}/.config/fish/config.fish'
+        search_string: PNPM_HOME $HOME
+        line: set --global --export PNPM_HOME $HOME/.local/share/pnpm
+
+    - name: Add 'pnpm' to $PATH
+      lineinfile:
+        path: '{{ home }}/.config/fish/config.fish'
+        search_string: $PNPM_HOME
+        line: set --append --export --global PATH $PNPM_HOME
+
+    - name: Generate Completion
+      shell: pnpm install-completion fish
+      when: true
