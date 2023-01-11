@@ -17,6 +17,12 @@
           - libboost-dev
         state: present
 
+    - name: Install Highlight from repository
+      apt:
+        name: 
+          - highlight
+        state: present
+
     - name: Get Highlight version
       when: true
       shell: >
