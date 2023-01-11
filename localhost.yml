@@ -31,6 +31,8 @@
       tags: offline
     - role: ./roles/configure_python
       tags: python
+    - role: ./roles/configure_requirements
+      tags: requirements
     - role: ./roles/configure_security
       tags: security
     - role: ./roles/configure_shells
