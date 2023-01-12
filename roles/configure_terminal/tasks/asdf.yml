@@ -31,6 +31,11 @@
         dest: '{{ home }}/.config/fish/completions/asdf.fish'
         state: link
 
+    - name: Load asdf to shell
+      shell: source "$HOME/.asdf/asdf.fish"
+      args:
+        executable: /usr/bin/fish
+
     # ASDF python
     - name: check for asdf python Plugin
       stat:
