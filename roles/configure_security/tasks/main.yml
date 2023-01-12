@@ -11,20 +11,19 @@
 
 - name: Install Howdy
   block:
-    - name: Add Howdy PPA source to repositories list (Ubuntu)
+    - name: 'Howdy: Add PPA source to repositories list (Ubuntu)'
       apt_repository:
         repo: 'ppa:boltgolt/howdy'
         state: present
         update_cache: true
       when: ansible_facts['distribution']=="Ubuntu"
 
-    - name: Add Howdy PPA source to repositories list
+    - name: 'Howdy: Add PPA source to repositories list (Mint)'
       apt_repository:
         repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/boltgolt-howdy-jammy.gpg] https://ppa.launchpadcontent.net/boltgolt/howdy/ubuntu {{ distro_codename }} main
         state: present
         update_cache: true
       when: ansible_facts['distribution']=="Linux Mint"
-
 
     - name: Install development modules
       apt:
