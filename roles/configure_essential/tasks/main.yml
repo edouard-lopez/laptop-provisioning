@@ -1,0 +1,20 @@
+---
+- name: Required toolings tasks
+  tags:
+    - required
+    - essential
+
+  block:
+    - name: Remove Linux Mint Snap preferences
+      become: true
+      ansible.builtin.file:
+        path: /etc/apt/preferences.d/nosnap.pref
+        state: absent
+
+    - name: Install snap
+      become: true
+      apt:
+        update_cache: yes
+        name:
+          - snapd
+        state: present
