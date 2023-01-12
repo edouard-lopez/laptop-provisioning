@@ -1,0 +1,27 @@
+---
+- name: Android toolings tasks
+  tags:
+    - android
+
+  block:
+  # see https://askubuntu.com/a/684128
+    - name: Install Android tooling
+      become: true
+      apt:
+        update_cache: yes
+        name:
+          - android-tools-adb
+          - gvfs-backends
+          - go-mtpfs
+          - jmtpfs
+          - gmtp
+          - libgoogle-glog0v5
+          - libmtp-common
+          - libmtp-dev
+          - libmtp-runtime
+          - libmtp9
+          - gmtp
+          - jmtpfs
+          - mtp-tools
+          - heimdall-flash-frontend
+        state: present

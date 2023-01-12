@@ -9,6 +9,8 @@
   roles:
     - role: deploy_ssh_keys
       tags: ssh
+    - role: ./roles/configure_android
+      tags: android
     - role: ./roles/configure_aws
       tags: aws
     - role: ./roles/configure_browser
