@@ -5,6 +5,13 @@
     - essential
 
   block:
+    - name: Install terminal
+      become: true
+      apt:
+        name:
+          - guake
+        state: present
+    
     - name: Syntax Highlighting for Less pager tasks
       include_tasks: highlight.yml
       tags:
