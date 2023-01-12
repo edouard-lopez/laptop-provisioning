@@ -1,6 +1,6 @@
 distro_name: 'Ubuntu'
 distro_version: '22.10'
-distro_codename: 'kinetic'
+distro_codename: 'jammy'
 
 home: "{{ lookup('env', 'HOME') }}"
 user: "{{ lookup('env', 'USER') }}"
