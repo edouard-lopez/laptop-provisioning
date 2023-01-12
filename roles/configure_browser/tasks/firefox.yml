@@ -1,0 +1,51 @@
+---
+- name: Browser tasks
+  tags:
+    - browser
+    - firefox
+
+  block:
+    - name: 'Firefox: Remove snap package'
+      snap:
+        name: firefox
+        state: absent
+      tags:
+        - snap
+
+    - name: 'Firefox: Remove apt package'
+      apt:
+        name: firefox
+        state: absent
+      tags:
+        - apt
+
+    - name: 'Firefox: Add source to repositories list (Ubuntu)'
+      apt_repository:
+        repo: ppa:mozillateam/ppa
+        state: present
+        update_cache: true
+      when: ansible_facts['distribution']=="Ubuntu"
+
+    - name: 'Firefox: Add source to repositories list (Mint)'
+      apt_repository:
+        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/mozillateam-ppa-jammy.gpg] https://ppa.launchpadcontent.net/mozillateam/ppa/ubuntu {{ distro_codename }} main
+        state: present
+        update_cache: true
+      when: ansible_facts['distribution']=="Linux Mint"
+
+    - name: Update package policy
+      blockinfile:
+        path: /etc/apt/preferences.d/firefox-for-nosnaps
+        create: true
+        content: |
+          Package: *
+          Pin: release o=LP-PPA-mozillateam
+          Pin-Priority: 1001
+
+    - name: 'Firefox: Install apt package (from PPA)'
+      apt:
+        name: firefox
+        state: present
+      tags:
+        - apt
+

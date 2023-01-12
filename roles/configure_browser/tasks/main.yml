@@ -5,15 +5,11 @@
 
   block:
     - name: Install Firefox
-      snap:
-        name: firefox
-        state: present
-        channel: classic
+      include_tasks: firefox.yml
       tags:
-        - snap
+        - firefox
 
-    - name: Install dbus-user-session to Fix Snap packages launch # /user.slice/user-1000.slice/session-21.scope is not a snap cgroup
-      apt:
-        name:
-          - dbus-user-session
-        state: present
+    - name: Install Brave Browser
+      include_tasks: brave.yml
+      tags:
+        - brave

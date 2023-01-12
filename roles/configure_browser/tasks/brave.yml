@@ -1,0 +1,24 @@
+---
+- name: brave browser tasks
+  tags:
+    - browser
+    - brave
+
+  block:
+    - name: 'Brave browser: add official GPG key'
+      apt_key:
+        url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+        keyring: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+        state: present
+
+    - name: 'Brave browser: Add source to repositories list'
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
+        state: present
+        update_cache: true
+
+    - name: Install Brave browser
+      apt:
+        name: 
+          - brave-browser
+        state: present
