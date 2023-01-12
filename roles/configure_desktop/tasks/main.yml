@@ -12,35 +12,14 @@
       tags:
         - shutter
 
-    - name: Install ibus, ulauncher
+    - name: Install ibus
       apt:
         name:
           - ibus
           - diodon
         state: present
 
-    - name: 'Ulauncher: Add PPA source to repositories list (Ubuntu)'
-      apt_repository:
-        repo: 'ppa:agornostal/ulauncher'
-        state: present
-        update_cache: true
-      when: ansible_facts['distribution']=="Ubuntu"
+    - name: ulauncher tasks
+      include_tasks: ulauncher.yml
       tags:
-        - launcher
-
-    - name: 'Ulauncher: Add PPA source to repositories list (Mint)'
-      apt_repository:
-        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/agornostal-ulauncher-jammy.gpg] https://ppa.launchpadcontent.net/agornostal/ulauncher/ubuntu {{ distro_codename }} main
-        state: present
-        update_cache: true
-      when: ansible_facts['distribution']=="Linux Mint"
-      tags:
-        - launcher
-
-    - name: Install Ulauncher
-      apt:
-        name: 
-          - ulauncher
-        state: present
-      tags:
-        - launcher
+        - ulauncher
