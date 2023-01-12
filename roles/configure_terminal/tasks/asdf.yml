@@ -32,6 +32,7 @@
         state: link
 
     - name: Load asdf to shell
+      become: false
       shell: source "$HOME/.asdf/asdf.fish"
       args:
         executable: /usr/bin/fish
@@ -42,8 +43,9 @@
         path: '{{ home }}/.asdf/plugins/python'
       register: asdf_python_plugin
 
-    - name: Install asdf Plugin for nodejs
-      command: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+    - name: Install asdf Plugin for Python
+      become: false
+      command: asdf plugin add python
       args:
         executable: /usr/bin/fish
       when: not asdf_python_plugin.stat.exists
@@ -55,6 +57,7 @@
       register: asdf_nodejs_plugin
 
     - name: Install asdf Plugin for nodejs
+      become: false
       command: asdf plugin add nodejs
       args:
         executable: /usr/bin/fish
