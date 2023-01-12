@@ -1,0 +1,30 @@
+---
+- name: signal tasks
+  tags:
+    - signal
+
+  block:
+    - name: 'Signal:install the gpg key'
+      apt_key:
+        url: https://updates.signal.org/desktop/apt/keys.asc
+        keyring: /usr/share/keyrings/signal-desktop-keyring.gpg 
+        state: present
+      tags:
+        - nodejs
+
+    - name: 'Signal: Add PPA source to repositories list (Ubuntu & Mint)'
+      apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
+        state: present
+        update_cache: true
+      when: ansible_facts['distribution']=="Linux Mint" or  ansible_facts['distribution']=="Ubuntu"
+      tags:
+        - launcher
+
+    - name: Install signal
+      apt:
+        name:
+          - signal-desktop
+        state: present
+      tags:
+        - launcher
