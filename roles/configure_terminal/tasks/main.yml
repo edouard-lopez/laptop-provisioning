@@ -64,6 +64,14 @@
       tags:
         - just
 
+    - name: Generate Completion
+      become: false
+      shell: just --completions fish > $HOME/.config/fish/completions/just.fish
+      when: true
+      tags:
+        - just
+
+
     - name: Install direnv
       become: true
       apt:
