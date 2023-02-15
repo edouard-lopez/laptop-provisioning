@@ -1,56 +1,70 @@
 ---
-- name: Install Authy for synced 2FA
-  community.general.snap:
-    name: authy
-    state: present
-    channel: latest
+- name: security tasks
   tags:
     - security
-    - 2FA
-    - auth
 
-- name: Install Howdy
   block:
-    - name: 'Howdy: Add PPA source to repositories list (Ubuntu)'
-      apt_repository:
-        repo: 'ppa:boltgolt/howdy'
-        state: present
-        update_cache: true
-      when: ansible_facts['distribution']=="Ubuntu"
-
-    - name: 'Howdy: Add PPA source to repositories list (Mint)'
-      apt_repository:
-        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/boltgolt-howdy-jammy.gpg] https://ppa.launchpadcontent.net/boltgolt/howdy/ubuntu {{ distro_codename }} main
-        state: present
-        update_cache: true
-      when: ansible_facts['distribution']=="Linux Mint"
-
-    - name: Install development modules
+    - name: Install GPG
       apt:
         name:
-          - cmake
+          - gnupg2
+      notify: 
+        - install-pass
+      tags:
+        - gpg
+
+    - name: Install Authy for synced 2FA
+      community.general.snap:
+        name: authy
         state: present
+        channel: latest
+      tags:
+        - 2FA
 
-    - name: Install development modules
-      pip:
-        name:
-          - dlib
+    - name: Fingerprint authentication playbook
+      include_tasks: fingerprint.yml
+      tags:
+        - fingerprint
 
-    - name: Install howdy dependencies (APT)
-      apt:
-        name:
-          - python3-numpy
-          - python3-opencv
-          - libopencv-dev
-        state: present
+    - name: Install Howdy
+      block:
+        - name: 'Howdy: Add PPA source to repositories list (Ubuntu)'
+          apt_repository:
+            repo: 'ppa:boltgolt/howdy'
+            state: present
+            update_cache: true
+          when: ansible_facts['distribution']=="Ubuntu"
 
-    - name: Install howdy
-      apt:
-        name:
-          - howdy
-        state: present
+        - name: 'Howdy: Add PPA source to repositories list (Mint)'
+          apt_repository:
+            repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/boltgolt-howdy-jammy.gpg] https://ppa.launchpadcontent.net/boltgolt/howdy/ubuntu {{ distro_codename }} main
+            state: present
+            update_cache: true
+          when: ansible_facts['distribution']=="Linux Mint"
 
-  tags:
-    - login
-    - auth
-    - security
+        - name: Install development modules
+          apt:
+            name:
+              - cmake
+            state: present
+
+        - name: Install development modules
+          pip:
+            name:
+              - dlib
+
+        - name: Install howdy dependencies (APT)
+          apt:
+            name:
+              - python3-numpy
+              - python3-opencv
+              - libopencv-dev
+            state: present
+
+        - name: Install howdy
+          apt:
+            name:
+              - howdy
+            state: present
+      tags:
+        - login

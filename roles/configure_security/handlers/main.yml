@@ -1,0 +1,6 @@
+---
+- name: Install Password-store (e.g. for docker credentials)
+  apt:
+    name:
+      - pass
+  listen: install-pass
