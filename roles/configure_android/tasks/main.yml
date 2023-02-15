@@ -11,6 +11,7 @@
         update_cache: yes
         name:
           - android-tools-adb
+          - android-tools-fastboot
           - gvfs-backends
           - go-mtpfs
           - jmtpfs
