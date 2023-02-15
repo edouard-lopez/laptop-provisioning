@@ -37,7 +37,6 @@
     state: present
   with_items:
     - tldr
-    - npx
   tags:
     - nodejs
     - shell
