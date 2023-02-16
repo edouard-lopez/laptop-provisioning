@@ -49,3 +49,8 @@
 - name: Install Poetry
   script: /tmp/poetry-installer
   when: true
+
+- name: "PDM: modern Python package and dependency manager"
+  include_tasks: pdm.yml
+  tags:
+    - pdm

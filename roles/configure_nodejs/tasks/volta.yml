@@ -33,6 +33,7 @@
         search_string: VOLTA_HOME/bin
         line: set --append --export --global PATH $VOLTA_HOME/bin
 
-    - name: Generate Completion
+    - name: Add `volta` completions to Fish
+      become: false
       shell: volta completions fish > $HOME/.config/fish/completions/volta.fish
       when: true

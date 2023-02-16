@@ -32,6 +32,7 @@
         search_string: $PNPM_HOME
         line: set --append --export --global PATH $PNPM_HOME
 
-    - name: Generate Completion
+    - name: Add `pnpm` completions to Fish
+      become: false
       shell: command pnpm install-completion fish
       when: true

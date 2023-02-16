@@ -64,7 +64,7 @@
       tags:
         - just
 
-    - name: Generate Completion
+    - name: Add `just` completions to Fish
       become: false
       shell: just --completions fish > $HOME/.config/fish/completions/just.fish
       when: true
