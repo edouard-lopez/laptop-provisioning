@@ -1,0 +1,30 @@
+---
+- name: Instal Delta A syntax-highlighting pager for git, diff, and grep output
+  tags:
+    - git
+    - gitlab
+    - glab-cli
+
+  block:
+    # - name: Install Gitlab CLI
+    #   snap:
+    #     name: glab
+    #     state: present
+    #     channel: edge
+    #     classic: true
+
+    # - name: "Grant glab access to SSH keys"
+    #   command: >
+    #     snap connect glab:ssh-keys
+
+    - name: Install from release page # https://gitlab.com/gitlab-org/cli/-/releases
+      vars:
+        glab_version: 1.25.3
+      apt:
+        deb: https://gitlab.com/gitlab-org/cli/-/releases/v{{ glab_version }}/downloads/glab_{{ glab_version }}_Linux_x86_64.deb
+    
+    - name: Add `glab` completions to Fish
+      become: false
+      shell: >
+        glab completion --shell fish > $HOME/.config/fish/completions/glab.fish
+      when: true
