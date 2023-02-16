@@ -1,0 +1,22 @@
+---
+- name: "PDM: modern Python package and dependency manager"
+  tags:
+    - pdm
+
+  block:
+    - name: Download PDM
+      get_url:
+        url: https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py
+        dest: /tmp/pdm.sh
+        mode: 'u+x'
+
+    - name: Install PDM
+      command: /tmp/pdm.sh
+      when: true
+
+    - name: Add `PDM` completions to Fish
+      become: false
+      shell: >
+        pdm completion fish > ~/.config/fish/completions/pdm.fish
+      args:
+        executable: /usr/bin/fish
