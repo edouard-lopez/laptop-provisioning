@@ -7,11 +7,13 @@
     - name: Download PDM
       get_url:
         url: https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py
-        dest: /tmp/pdm.sh
+        dest: /tmp/pdm.py
         mode: 'u+x'
+        owner: '{{ user }}'
+        group: '{{ user }}'
 
     - name: Install PDM
-      command: /tmp/pdm.sh
+      command: python /tmp/pdm.py
       when: true
 
     - name: Add `PDM` completions to Fish

@@ -1,56 +1,84 @@
 ---
-- name: Install Python 3
-  apt:
-    name:
-      - python3
-    state: present
-  tags:
+- name: Python related tasks
+  tags: 
     - python
-    - essential
 
-- name: Ubuntu Requirements For Installing Pip
-  apt:
-    name:
-      - python3-pip
-  tags:
-    - python
-    - dev
+  block:
+    - name: Install Python 3
+      apt:
+        name:
+          - python3
+        state: present
+      tags:
+        - python
+        - essential
 
-- name: Install development modules
-  become: false
-  pip:
-    name:
-      - pipenv
-      - pipx
-    extra_args: --user
-  tags:
-    - pipx
-    - python
-    - dev
+    - name: Ubuntu Requirements For Installing Pip
+      apt:
+        name:
+          - python3-pip
+      tags:
+        - python
+        - dev
 
-- name: Post-install to ensure $PATH is correctly configured
-  become: false
-  community.general.pipx:
-    name: ensurepath
-    state: present
-  when: true
-  tags:
-    - pipx
-    - python
-    - dev
+    - name: Install development modules
+      become: false
+      pip:
+        name:
+          - pipenv
+          - pipx
+        extra_args: --user
+      tags:
+        - pipx
+        - python
+        - dev
 
-- name: Download Poetry
-  become: false
-  get_url:
-    url: https://install.python-poetry.org
-    dest: /tmp/poetry-installer
-    mode: 755
+    - name: Post-install to ensure $PATH is correctly configured
+      become: false
+      command: |
+        python3 -m pipx ensurepath
+      when: true
+      tags:
+        - pipx
+        - python
+        - dev
 
-- name: Install Poetry
-  script: /tmp/poetry-installer
-  when: true
+    - name: Download Poetry
+      become: true
+      get_url:
+        url: https://install.python-poetry.org
+        dest: /tmp/poetry-installer
+        mode: 'u+x'
+        owner: '{{ user }}'
+        group: '{{ user }}'
 
-- name: "PDM: modern Python package and dependency manager"
-  include_tasks: pdm.yml
-  tags:
-    - pdm
+    - name: Install Poetry
+      script: /tmp/poetry-installer
+      when: true
+
+    - name: "PDM: modern Python package and dependency manager"
+      include_tasks: pdm.yml
+      tags:
+        - pdm
+
+    - name: Install system dependencies (requird for ASDF install)
+      become: true
+      apt:
+        update_cache: yes
+        name:
+          - build-essential
+          - libssl-dev
+          - zlib1g-dev
+          - libbz2-dev
+          - libreadline-dev
+          - libsqlite3-dev
+          - curl
+          - libncursesw5-dev
+          - xz-utils
+          - tk-dev
+          - libxml2-dev
+          - libxmlsec1-dev
+          - libffi-dev
+          - liblzma-dev
+      tags:
+        - asdf
