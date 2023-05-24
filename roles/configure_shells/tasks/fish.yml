@@ -40,7 +40,7 @@
           - jorgebucaran/nvm.fish
           - paysonwallach/fish-you-should-use
           - danhper/fish-ssh-agent
-      loop: '{{ fish_plugins }}'
+      loop: "{{ fish_plugins }}"
       shell: fisher install {{ item }}
       when: true
       args:
@@ -59,3 +59,11 @@
       when: true
       args:
         executable: /usr/bin/fish
+
+    - name: Fix When launching firefox, get error Not loading module "atk-bridge" https://askubuntu.com/q/1462267/22343
+      lineinfile:
+        path: "{{ home }}/.config/fish/config.fish"
+        search_string: GTK_DEBUG
+        line: set --universal --export GTK_DEBUG interactive
+      tags:
+        - k9s
