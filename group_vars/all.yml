@@ -1,6 +1,6 @@
-distro_name: 'Ubuntu'
-distro_version: '22.10'
-distro_codename: 'jammy'
+distro_name: "Ubuntu"
+distro_version: "23.04"
+distro_codename: "lunar"
 
 home: "{{ lookup('env', 'HOME') }}"
 user: "{{ lookup('env', 'USER') }}"
