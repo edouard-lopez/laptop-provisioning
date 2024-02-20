@@ -1,0 +1,24 @@
+---
+- name: TestKube tasks
+  tags:
+    - k8s
+    - testkube
+
+  block:
+    - name: "TestKube: add official GPG key"
+      apt_key:
+        url: https://repo.testkube.io/key.pub
+        keyring: /usr/share/keyrings/testkube-keyring.gpg
+        state: present
+
+    - name: "TestKube: Add source to repositories list"
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/testkube-keyring.gpg arch=amd64] https://repo.testkube.io/linux linux main
+        state: present
+        update_cache: true
+
+    - name: Install TestKube
+      apt:
+        name:
+          - testkube
+        state: present

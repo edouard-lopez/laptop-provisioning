@@ -11,7 +11,7 @@
   get_url:
     url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
     dest: /tmp/helm.sh
-    mode: 'u+x'
+    mode: "u+x"
   tags:
     - k8s
     - helm
@@ -45,7 +45,7 @@
 
 - name: Add krew to $PATH
   lineinfile:
-    path: '{{ home }}/.config/fish/config.fish'
+    path: "{{ home }}/.config/fish/config.fish"
     search_string: krew
     line: set --append --export --global PATH $HOME/.krew/bin
   tags:
@@ -67,11 +67,11 @@
 
 - name: Copy file with owner and permissions
   ansible.builtin.copy:
-    src: 'files/kube-config'
-    dest: '{{ home }}/.kube/config'
-    owner: '{{ user }}'
-    group: '{{ user }}'
-    mode: '0600'
+    src: "files/kube-config"
+    dest: "{{ home }}/.kube/config"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0600"
     force: false
   tags:
     - k8s
