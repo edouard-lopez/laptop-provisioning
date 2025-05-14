@@ -90,3 +90,13 @@
       tags:
         - ripgrep
         - find
+
+    - name: Install eza (exa replacement)
+      become: true
+      apt:
+        name:
+          - eza
+        state: present
+      tags:
+        - exa
+        - find
