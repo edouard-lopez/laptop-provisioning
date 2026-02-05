@@ -27,11 +27,13 @@
         name:
           - pipenv
           - pipx
+          - uv
         extra_args: --user
       tags:
         - pipx
         - python
         - dev
+        - uv
 
     - name: Post-install to ensure $PATH is correctly configured
       become: false
