@@ -1,11 +1,9 @@
 ---
 - hosts: localhost
   name: Provision a machine with basics
-  connection: local
-  become: false
-
   vars_files:
     - .secret.yml
+  become: true
 
   roles:
     - role: deploy_ssh_keys

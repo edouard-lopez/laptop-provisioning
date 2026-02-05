@@ -6,7 +6,7 @@
 1. Deploy the SSH keys:
 
       ```sh
-      make deploy-ssh-key
+      make deploy-ssh-key # might need ssh-copy-id first
       ```
 
 1. Check the playbook
@@ -22,7 +22,7 @@
       $EDITOR .secret.txt # add your vault password
       ```
 
-2. Create a vault to hold your `sudo` password
+1. Create a vault to hold your `sudo` password
 
       ```sh
       ansible-vault encrypt_string \
@@ -31,7 +31,7 @@
             --output .secret.yml
       ```
 
-3. Run the playbook
+1. Run the playbook
 
       ```sh
       poetry shell

@@ -46,10 +46,10 @@
     - delta
 
 - name: Install gitui (terminal-ui for git)
+  become: false
   shell: >
       curl -sSL https://github.com/gitui-org/gitui/releases/download/v0.28.0/gitui-linux-x86_64.tar.gz | tar xz -C ~/apps
   when: true
   tags:
     - git
     - gitui
-
