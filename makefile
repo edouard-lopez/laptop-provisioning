@@ -37,7 +37,7 @@ install-requirements:
 		ansible-lint
 	sudo apt install \
 		--yes \
-		python3.10 \
+		python3.12 \
 		python3-venv
 	curl \
 		--show-error \

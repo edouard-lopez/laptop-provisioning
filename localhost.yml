@@ -1,7 +1,8 @@
 ---
 - hosts: localhost
   name: Provision a machine with basics
-  become: true
+  connection: local
+  become: false
 
   vars_files:
     - .secret.yml
