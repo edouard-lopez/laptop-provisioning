@@ -73,7 +73,9 @@ test-locally:
 
 
 configure:
-	ansible-playbook localhost.yml \
+	ansible-playbook \
+		localhost.yml \
+		--inventory inventories/dev.ini \
 		--vault-password-file=.secret.txt \
 		--tags "${TAGS}"
 
