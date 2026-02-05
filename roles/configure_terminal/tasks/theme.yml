@@ -8,9 +8,23 @@
     - name: Install Base16 color
       become: false # prevent git: fatal: unsafe repository
       git:
-        repo: https://github.com/base16-project/base16-shell.git
+        repo: https://github.com/tinted-theming/tinted-shell.git
         dest: '{{ home }}/.config/base16-shell'
         depth: 1
-        version: master
-    tags:
-      - fish
+        version: main
+      tags:
+        - fish
+
+    - name: Install tinty (A base16 color scheme manager )
+      become: false # prevent git: fatal: unsafe repository
+      vars:
+        tinty_version: 'v0.30.0'
+      shell: |
+        curl -sSL https://github.com/tinted-theming/tinty/releases/download/{{ tinty_version }}/tinty-x86_64-unknown-linux-musl.tar.gz \
+        | tar xz --overwrite --directory={{ home }}/apps
+      when: true
+      tags:
+        - tinty
+
+
+    

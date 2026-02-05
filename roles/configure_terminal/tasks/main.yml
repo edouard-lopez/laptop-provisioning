@@ -28,6 +28,12 @@
       tags:
         - asdf
 
+    - name: theme tasks
+      include_tasks: theme.yml
+      tags:
+        - theme
+        - tinty
+
     - name: Install Monitoring tools
       become: true
       apt:
