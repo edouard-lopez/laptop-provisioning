@@ -47,9 +47,12 @@
 
 - name: Install gitui (terminal-ui for git)
   become: false
+  vars:
+    gitui_version: 'v0.28.0'
   shell: >
-      curl -sSL https://github.com/gitui-org/gitui/releases/download/v0.28.0/gitui-linux-x86_64.tar.gz | tar xz -C ~/apps
+      curl -sSL https://github.com/gitui-org/gitui/releases/download/{{ gitui_version }}/gitui-linux-x86_64.tar.gz | tar xz -C ~/apps
   when: true
   tags:
     - git
     - gitui
+
